@@ -6,54 +6,57 @@ import { FC, useContext, useState } from 'react'
 // import { ItemCounter, LoadingScreen } from '../../components/ui'
 // import { CartContext } from '../../context'
 // import { dbProducts } from '../../database'
-import { initialData } from '../../database/products'
+import { initialData } from '../../database/products';
 // import { useProducts } from '../../hooks/useProducts'
-import { ProductSlideshow } from '@/components/products'
+import { ProductSlideshow, SizeSelector } from '@/components/products'
 import { ShopLayout } from '@/components/layout'
-import { IProduct } from '../../interfaces/products';
+import { ItemCounter } from '@/components/ui'
+import { IProduct } from '@/interfaces'
 
 interface Props{
-    product: IProduct
+    // product: IProduct
 }
+const product = initialData.products[0]
 
-const ProductPage: FC<Props> = ({ product }) => {
+const ProductPage: FC<Props> = (/* { product } */) => {
 
     const router = useRouter();
 
     // const { addItem } = useContext(CartContext);
 
     const [tempCartProduct, setTempCartProduct] = useState({
-        _id: product._id,
+        _id: 'asdfss',
+        // _id: product._id,
         image: product.images[0],
         price: product.price,
-        size: undefined,
+        size: product.sizes[0],
         slug: product.slug,
         title: product.title,
         gender: product.gender,
         quantity: 1,
     });
 
-    // const onSelectedSize = (size) => {
-    //     setTempCartProduct( currentProduct => ({
-    //         ...currentProduct,
-    //         size
-    //     }))
-    // };
+    const onSelectedSize = (size) => {
+        setTempCartProduct( currentProduct => ({
+            ...currentProduct,
+            size
+        }))
+    };
 
-    // const updateQuantity = (quantity) => {
-    //   setTempCartProduct( currentProduct => ({
-    //     ...currentProduct,
-    //     quantity
-    //   }))
-    // }
+    const updateQuantity = (quantity) => {
+      setTempCartProduct( currentProduct => ({
+        ...currentProduct,
+        quantity
+      }))
+    }
 
-    // const onAddProduct = () => {
+    const onAddProduct = () => {
       
-    //     //Todo: llamar la accion del context para agregar al carrito
-    //     addItem(tempCartProduct)
-    //     console.log({tempCartProduct});
-    //     router.push('/cart');
-    // }
+        //Todo: llamar la accion del context para agregar al carrito
+        // addItem(tempCartProduct)
+        console.log({tempCartProduct});
+        router.push('/cart');
+    }
     
     return (
         <ShopLayout title={product.title} pageDescription={product.description}>
@@ -71,10 +74,10 @@ const ProductPage: FC<Props> = ({ product }) => {
                         <Typography variant='subtitle1' component='h2'>${product.price}</Typography>
                         {/* cantidad */}
                         <Box sx={{ my: 2 }} display='flex' alignItems='center' justifyContent='center'>
-                            {/* <ItemCounter maxValue={product.inStock} currentQuantity={tempCartProduct.quantity} updateQuantity={ updateQuantity } /> */}
+                            <ItemCounter maxValue={product.inStock} currentQuantity={tempCartProduct.quantity} updateQuantity={ updateQuantity } />
                         </Box>
                         <Box sx={{ mb: 2 }} display='flex' alignItems='center' justifyContent='center'>
-                            {/* <SizeSelector sizes={product.sizes} selectedSize={tempCartProduct.size} onSelectedSize={onSelectedSize} /> */}
+                            <SizeSelector sizes={product.sizes} selectedSize={tempCartProduct.size} onSelectedSize={onSelectedSize} />
                         </Box>
                         {/* agregar al carrito */}
                         {
@@ -84,7 +87,7 @@ const ProductPage: FC<Props> = ({ product }) => {
                                 <Button
                                     color='secondary' 
                                     disabled={tempCartProduct.size ? false : true} 
-                                    // onClick={onAddProduct}
+                                    onClick={onAddProduct}
                                 >
                                     {tempCartProduct.size ? 'Agregar al carrito' : 'Seleccione una talla'}
                                 </Button>
@@ -137,45 +140,45 @@ const ProductPage: FC<Props> = ({ product }) => {
 // gsprops -> revalidar cada 24 horas 
 
 // You should use getStaticPaths if you’re statically pre-rendering pages that use dynamic routes
-export const getStaticPaths = async (ctx) => {
-    const slugs = await dbProducts.getAllProdctSlugs();
-    // console.log({slugs})  // your fetch function here 
+// export const getStaticPaths = async (ctx) => {
+//     const slugs = await dbProducts.getAllProdctSlugs();
+//     // console.log({slugs})  // your fetch function here 
 
-    return {
-        paths: slugs.map(({ slug }) => {
-            return {
-                params: { slug }
-            }
-        }),
-        fallback: 'blocking'
-    }
-}
+//     return {
+//         paths: slugs.map(({ slug }) => {
+//             return {
+//                 params: { slug }
+//             }
+//         }),
+//         fallback: 'blocking'
+//     }
+// }
 
 // You should use getStaticProps when:
 //- The data required to render the page is available at build time ahead of a user’s request.
 //- The data comes from a headless CMS.
 //- The data can be publicly cached (not user-specific).
 //- The page must be pre-rendered (for SEO) and be very fast — getStaticProps generates HTML and JSON files, both of which can be cached by a CDN for performance.
-export const getStaticProps = async (ctx) => {
-    const { slug } = ctx.params;
-    // console.log(ctx.params)
-    const product = await dbProducts.getProductBySlug(slug);
+// export const getStaticProps = async (ctx) => {
+//     const { slug } = ctx.params;
+//     // console.log(ctx.params)
+//     const product = await dbProducts.getProductBySlug(slug);
 
-    if (!product) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false
-            }
-        }
-    }
+//     if (!product) {
+//         return {
+//             redirect: {
+//                 destination: '/',
+//                 permanent: false
+//             }
+//         }
+//     }
 
-    return {
-        props: {
-            product
-        },
-        revalidate: 60 * 60 * 24
-    }
-}
+//     return {
+//         props: {
+//             product
+//         },
+//         revalidate: 60 * 60 * 24
+//     }
+// }
 
 export default ProductPage

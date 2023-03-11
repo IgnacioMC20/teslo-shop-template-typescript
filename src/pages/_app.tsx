@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 import '@fontsource/roboto/700.css';
+import 'react-slideshow-image/dist/styles.css'
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import type { AppProps } from 'next/app'
 import { lightTheme } from '../themes/light-theme';

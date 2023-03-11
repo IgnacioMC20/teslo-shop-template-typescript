@@ -8,13 +8,6 @@ interface Props {
 
 export const ProductSlideshow: FC<Props> = ({ images }) => {
 
-    // const slideImages = [
-    //     {
-    //       url: 'images/slide_2.jpg',
-    //       caption: 'Slide 1'
-    //     },
-    //   ];
-
     return (
         <div className="slide-container">
             <Slide
