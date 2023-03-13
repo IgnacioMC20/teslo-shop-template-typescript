@@ -11,7 +11,7 @@ import { initialData } from '../../database/products';
 import { ProductSlideshow, SizeSelector } from '@/components/products'
 import { ShopLayout } from '@/components/layout'
 import { ItemCounter } from '@/components/ui'
-import { IProduct } from '@/interfaces'
+import { IProduct, ISize } from '@/interfaces'
 
 interface Props{
     // product: IProduct
@@ -36,14 +36,14 @@ const ProductPage: FC<Props> = (/* { product } */) => {
         quantity: 1,
     });
 
-    const onSelectedSize = (size) => {
+    const onSelectedSize = (size: any) => {
         setTempCartProduct( currentProduct => ({
             ...currentProduct,
             size
         }))
     };
 
-    const updateQuantity = (quantity) => {
+    const updateQuantity = (quantity: number) => {
       setTempCartProduct( currentProduct => ({
         ...currentProduct,
         quantity
