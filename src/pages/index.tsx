@@ -1,16 +1,14 @@
+// import { initialData } from '../database/products';
 import { NextPage } from 'next';
-
 import { Typography } from '@mui/material';
-
 import { ShopLayout } from '@/components/layout';
 import { LoadingScreen } from '@/components/ui';
 import { ProductList } from '@/components/products';
-import { initialData } from '../database/products';
-
-const isLoading = false;
+import { useProducts } from '@/hooks';
 
 const Home: NextPage = () => {
-
+  const { products, isLoading } = useProducts('/products');
+  
   return (
     <ShopLayout title={'Home'} pageDescription='Encuentra los mejores productos de teslo'>
       <Typography variant='h1' component='h1'>Tienda</Typography>
@@ -19,7 +17,7 @@ const Home: NextPage = () => {
       {
         isLoading
           ? <LoadingScreen />
-          : <ProductList products={initialData.products as any} />
+          : <ProductList products={products} />
       }
     </ShopLayout>
   )

@@ -31,17 +31,17 @@ export const Navbar = () => {
                 {
                     !isSearchVisible && (
                 <Box className="fadeIn" sx={{ display: { xs: 'none', sm: 'block' } }}>
-                    <NextLink href={'/category/women'} legacyBehavior passHref>
+                    <NextLink href={'/category/men'} legacyBehavior passHref>
                         <Link>
-                            <Button color={router.pathname === '/category/women' ? 'secondary' : 'info' }>
+                            <Button color={router.pathname === '/category/men' ? 'secondary' : 'info' }>
                                 {/* <Button color={router.pathname === '/category/men' ? 'secondary' : 'info'}>Men</Button> */}
                                 Hombres
                             </Button>
                         </Link>
                     </NextLink>
-                    <NextLink href={'/category/men'} legacyBehavior passHref>
+                    <NextLink href={'/category/women'} legacyBehavior passHref>
                         <Link>
-                            <Button color={router.pathname === '/category/men' ? 'secondary' : 'info' }>
+                            <Button color={router.pathname === '/category/women' ? 'secondary' : 'info' }>
                                 Mujeres
                             </Button>
                         </Link>
