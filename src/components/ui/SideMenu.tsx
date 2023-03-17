@@ -1,33 +1,32 @@
 import { Box, Divider, Drawer, IconButton, Input, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from "@mui/material"
-import { AccountCircleOutlined, EscalatorWarningOutlined, FemaleOutlined, LoginOutlined, LogoutOutlined, MaleOutlined, ShoppingBagOutlined, CheckroomOutlined, AdminPanelSettingsOutlined } from '@mui/icons-material';
+import { AccountCircleOutlined, EscalatorWarningOutlined, FemaleOutlined, LoginOutlined, LogoutOutlined, MaleOutlined, ShoppingBagOutlined, CheckroomOutlined, AdminPanelSettingsOutlined, SearchOutlined } from '@mui/icons-material';
 import { useContext, useState } from "react"
-// import { UIContext } from "../../context"
 import { useRouter } from "next/router"
+import { UIContext } from "@/context";
 
 
 export const SideMenu = () => {
 
-    // const { isMenuOpen, toggleSideMenu } = useContext(UIContext);
+    const { isMenuOpen, toggleSideMenu } = useContext(UIContext);
     const router = useRouter();
     const navigateTo = (url: string) => {
-        // toggleSideMenu();
+        toggleSideMenu();
         router.push(url);
     }
 
-    // const onSearchTerm = () => {
-    //     if (searchTerm.trim().length === 0) return;
-    //     navigateTo(`/search/${searchTerm}`);
-    // }
+    const onSearchTerm = () => {
+        if (searchTerm.trim().length === 0) return;
+        navigateTo(`/search/${searchTerm}`);
+    }
 
-    // const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
-const isMenuOpen = false
     return (
         <Drawer
             open={isMenuOpen}
             anchor='right'
             sx={{ backdropFilter: 'blur(4px)', transition: 'all 0.5s ease-out' }}
-            // onClose={toggleSideMenu}
+            onClose={toggleSideMenu}
         >
             <Box sx={{ width: 300, paddingTop: 5, height: '100%' }}>
 
@@ -55,14 +54,14 @@ const isMenuOpen = false
                             label="Password"
                         /> */}
 
-                        {/* <Input
+                        <Input
+                            sx={{ display: { xs: '', sm: 'none' } }}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onKeyPress={(e) => e.key === 'Enter' ? onSearchTerm() : null}
-                            disableUnderline
                             type='text'
                             autoFocus
-                            // placeholder="Buscar..."
+                            placeholder="Buscar"
                             endAdornment={
                                 <InputAdornment position="start">
                                     <IconButton
@@ -72,7 +71,7 @@ const isMenuOpen = false
                                     </IconButton>
                                 </InputAdornment>
                             }
-                        /> */}
+                        />
                     </ListItem>
 
                     <ListItemButton >
@@ -116,7 +115,7 @@ const isMenuOpen = false
                             <EscalatorWarningOutlined />
                         </ListItemIcon>
                         <ListItemText primary={'Niños'} />
-                    </ListItemButton>                  
+                    </ListItemButton>
 
                     <ListItemButton>
                         <ListItemIcon>

@@ -27,5 +27,6 @@
     "react-slideshow-image": "^4.2.1",
     "swr": "^2.1.0",
     "typescript": "4.9.5"
-  }
+  },
+  "devDependencies": {}
 }

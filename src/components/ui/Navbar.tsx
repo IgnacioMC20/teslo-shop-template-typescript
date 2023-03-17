@@ -1,11 +1,13 @@
+import { UIContext } from '@/context';
 import { ClearOutlined, SearchOutlined, Menu, ShoppingCartOutlined } from '@mui/icons-material';
 import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Link,  Toolbar, Typography } from '@mui/material';
 import NextLink from 'next/link'
 import { useRouter } from 'next/router';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 export const Navbar = () => {
     const router = useRouter();
+    const { toggleSideMenu } = useContext(UIContext)
 
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -95,9 +97,9 @@ export const Navbar = () => {
                 }
 
                 {/* pantallas peque;as */}
-                {/* <IconButton sx={{ display: { xs: 'flex', sm: 'none' } }} onClick={toggleSideMenu}>
+                <IconButton sx={{ display: { xs: 'flex', sm: 'none' } }} onClick={toggleSideMenu}>
                     <SearchOutlined />
-                </IconButton> */}
+                </IconButton>
 
                 <NextLink href='/cart' passHref legacyBehavior>
                     <Link>
@@ -110,7 +112,7 @@ export const Navbar = () => {
                     </Link>
                 </NextLink>
 
-                <IconButton /* onClick={toggleSideMenu} */>
+                <IconButton onClick={toggleSideMenu}>
                     <Menu />
                 </IconButton>
 
