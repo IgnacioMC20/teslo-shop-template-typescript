@@ -1,10 +1,15 @@
-import { Button, Card, CardContent, Divider, Grid, Typography } from "@mui/material"
-import { Box } from "@mui/system"
-import { CartList, OrderSummary } from "@/components/cart";
-import { ShopLayout } from "@/components/layout";
 import { NextPage } from "next";
 
+import { Button, Card, CardContent, Divider, Grid, Typography } from "@mui/material"
+import { Box } from "@mui/system"
+
+import { CartList, OrderSummary } from "@/components/cart";
+import { ShopLayout } from "@/components/layout";
+import { useRouter } from "next/router";
+
 const index: NextPage = () => {
+
+    const router = useRouter()
     return (
         <ShopLayout title={`Carrito - (3)`} pageDescription={'Carrito de compra'}>
             <Typography variant='h1' component='h1'>Carrito</Typography>
@@ -21,7 +26,7 @@ const index: NextPage = () => {
                             {/* order summary */}
                             <OrderSummary />
                             <Box sx={{ mt: 3 }}>
-                                <Button color="primary" fullWidth>
+                                <Button color="primary" fullWidth onClick={() => router.push('/checkout/summary')}>
                                     Checkouts
                                 </Button>
                             </Box>

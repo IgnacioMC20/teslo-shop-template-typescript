@@ -8,7 +8,7 @@ import { CartList, OrderSummary } from "@/components/cart"
 const SummaryPage: NextPage = () => {
     return (
         <ShopLayout title={`Summary`} pageDescription={'Summary'}>
-            {/* <Typography variant='h1' component='h1'>Carrito</Typography> */}
+            <Typography variant='h1' component='h1'>Resumen de la orden</Typography>
             <Grid container columns={12}>
                 <Grid item xs={12} sm={7} >
                     <CartList />

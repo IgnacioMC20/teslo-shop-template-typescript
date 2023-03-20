@@ -5,10 +5,18 @@ import Cookie from 'js-cookie'
 
 export interface CartState {
     cart: ICartProduct[]
+    numberOfItems: number
+    subTotal: number
+    tax: number
+    total: number
 }
 
 const CART_INITIAL_STATE: CartState = {
-    cart: Cookie.get('cart') ? JSON.parse(Cookie.get('cart')!) : []
+    cart: Cookie.get('cart') ? JSON.parse(Cookie.get('cart')!) : [],
+    numberOfItems: 0,
+    subTotal: 0,
+    tax: 0,
+    total: 0,
 }
 
 export const CartProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -30,19 +38,18 @@ export const CartProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
         Cookie.set('cart', JSON.stringify(state.cart));
     }, [state.cart])
 
-    // TODO!!!
-    //   useEffect(() => {
-    //     const subTotal = state.cart.reduce((prev, current) => (current.price * current.quantity) + prev, 0)
-    //     const orderSummary = {
-    //       numberOfItems: state.cart.reduce((prev, current) => current.quantity + prev, 0),
-    //       subTotal,
-    //       tax: subTotal * Number(process.env.NEXT_PUBLIC_TAX_RATE || 0),
-    //       total: subTotal * (Number(process.env.NEXT_PUBLIC_TAX_RATE || 0) + 1)
-    //     }
 
-    //     dispatch({type: cart.updateOrderSummary, payload: orderSummary})
-    //     console.log({ orderSummary })
-    //   }, [state.cart])
+  useEffect(() => {
+    const subTotal = state.cart.reduce((prev, current) => (current.price * current.quantity) + prev, 0)
+    const orderSummary = {
+      numberOfItems: state.cart.reduce((prev, current) => current.quantity + prev, 0),
+      subTotal,
+      tax: subTotal * Number(process.env.NEXT_PUBLIC_TAX_RATE || 0),
+      total: subTotal * (Number(process.env.NEXT_PUBLIC_TAX_RATE || 0) + 1)
+    }
+    console.log({ orderSummary })
+    dispatch({type: '[Cart] - UpdateCartSummary', payload: orderSummary})
+  }, [state.cart])
 
     //Methods
     const addProductToCart = (product: ICartProduct) => {
@@ -69,13 +76,18 @@ export const CartProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
         dispatch({ type: '[Cart] - UpdateProductsInCart', payload: updatedProducts });
     }
 
+    const updateCartQuantity = (product: ICartProduct) => (dispatch({ type: '[Cart] - UpdateQuantity', payload: product }))
+    const removeCartProduct = (product: ICartProduct) => (dispatch({ type: '[Cart] - RemoveProduct', payload: product }))
+
 
     return (
         <CartContext.Provider value={{
             ...state,
 
             //Methods
-            addProductToCart
+            addProductToCart,
+            updateCartQuantity,
+            removeCartProduct
         }}>
             {children}
         </CartContext.Provider>
