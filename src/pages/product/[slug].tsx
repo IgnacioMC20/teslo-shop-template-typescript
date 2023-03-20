@@ -1,5 +1,5 @@
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
 import { Button, Chip, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
@@ -10,6 +10,8 @@ import { ShopLayout } from '@/components/layout'
 import { ItemCounter } from '@/components/ui'
 import { IProduct } from '@/interfaces'
 import { useRouter } from 'next/router'
+import { CartContext } from '@/context'
+import { ToastContainer, toast } from 'react-toastify'
 
 interface Props {
     product: IProduct
@@ -18,7 +20,7 @@ interface Props {
 const ProductPage: NextPage<Props> = ({ product }) => {
 
     const router = useRouter();
-    // const { addItem } = useContext(CartContext);
+    const { addProductToCart } = useContext(CartContext);
 
     const [tempCartProduct, setTempCartProduct] = useState({
         _id: product._id,
@@ -48,13 +50,27 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     const onAddProduct = () => {
 
         //Todo: llamar la accion del context para agregar al carrito
-        // addItem(tempCartProduct)
-        console.log({ tempCartProduct });
-        router.push('/cart');
+        addProductToCart(tempCartProduct)
+        toast('producto agregado al carrito')
+        //todo: agregar react toastify
+        // router.push('/cart');
     }
 
     return (
         <ShopLayout title={product.title} pageDescription={product.description}>
+            <ToastContainer 
+                pauseOnFocusLoss={false}
+                pauseOnHover={false}
+                autoClose={2000}
+                closeOnClick={false}
+                style={{
+                    maxWidth: '90vw',
+                    width: 'auto',
+                    borderRadius: '8px',
+                    padding: '1rem',
+                    textAlign: 'center'
+                  }}
+            />
             <Grid container spacing={1}>
                 <Grid item xs={12} sm={7}>
                     {/* Slideshow */}

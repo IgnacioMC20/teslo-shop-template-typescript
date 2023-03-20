@@ -8,6 +8,7 @@ interface Props {
     maxValue: number;
     updateQuantity: (arg: number) => void;
 }
+// Todo: itemCounter por talla y no en general
 
 export const ItemCounter: FC<Props> = ({currentQuantity, maxValue, updateQuantity}) => {
 
