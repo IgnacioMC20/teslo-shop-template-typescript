@@ -32,9 +32,9 @@ export const AuthLayout: FC<Props> = ({ title, children}) => {
                 {children}
             </main>
 
-            <footer style={{height: '30px'}}>
+            {/* <footer style={{height: '30px'}}>
                 <Footer />
-            </footer>
+            </footer> */}
         </>
     )
 }

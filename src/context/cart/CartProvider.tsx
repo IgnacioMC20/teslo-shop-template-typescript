@@ -39,17 +39,16 @@ export const CartProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
     }, [state.cart])
 
 
-  useEffect(() => {
-    const subTotal = state.cart.reduce((prev, current) => (current.price * current.quantity) + prev, 0)
-    const orderSummary = {
-      numberOfItems: state.cart.reduce((prev, current) => current.quantity + prev, 0),
-      subTotal,
-      tax: subTotal * Number(process.env.NEXT_PUBLIC_TAX_RATE || 0),
-      total: subTotal * (Number(process.env.NEXT_PUBLIC_TAX_RATE || 0) + 1)
-    }
-    console.log({ orderSummary })
-    dispatch({type: '[Cart] - UpdateCartSummary', payload: orderSummary})
-  }, [state.cart])
+    useEffect(() => {
+        const subTotal = state.cart.reduce((prev, current) => (current.price * current.quantity) + prev, 0)
+        const orderSummary = {
+            numberOfItems: state.cart.reduce((prev, current) => current.quantity + prev, 0),
+            subTotal,
+            tax: subTotal * Number(process.env.NEXT_PUBLIC_TAX_RATE || 0),
+            total: subTotal * (Number(process.env.NEXT_PUBLIC_TAX_RATE || 0) + 1)
+        }
+        dispatch({ type: '[Cart] - UpdateCartSummary', payload: orderSummary })
+    }, [state.cart])
 
     //Methods
     const addProductToCart = (product: ICartProduct) => {

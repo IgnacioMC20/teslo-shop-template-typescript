@@ -1,4 +1,4 @@
-import { IProduct } from "@/interfaces";
+import { IUser } from "@/interfaces";
 import mongoose, { model, Schema, Model } from "mongoose";
 
 
@@ -19,6 +19,6 @@ const userSchema = new Schema({
     timestamps: true
 })
 
-const User = mongoose.models.User || model('User', userSchema)
+const User: Model<IUser> = mongoose.models.User || model('User', userSchema)
 
 export default User
