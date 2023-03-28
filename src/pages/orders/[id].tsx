@@ -1,10 +1,12 @@
-import { CartList, OrderSummary } from "@/components/cart"
-import { ShopLayout } from "@/components/layout"
+import { NextPage } from "next"
+import NextLink from "next/link"
+
 import { CreditCardOffOutlined, CreditScoreOutlined } from "@mui/icons-material"
 import { Button, Card, CardContent, Chip, Divider, Grid, Link, Typography } from "@mui/material"
 import { Box } from "@mui/system"
-import { NextPage } from "next"
-import NextLink from "next/link"
+
+import { CartList, OrderSummary } from "@/components/cart"
+import { ShopLayout } from "@/components/layout"
 
 const OrderPage: NextPage = () => {
     return (

@@ -1,17 +1,17 @@
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next'
+import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
 
 import { Button, Chip, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { toast } from 'react-toastify'
 
 import { ProductSlideshow, SizeSelector } from '@/components/products'
 import { dbProducts } from '@/database'
 import { ShopLayout } from '@/components/layout'
 import { ItemCounter } from '@/components/ui'
 import { IProduct } from '@/interfaces'
-import { useRouter } from 'next/router'
 import { CartContext } from '@/context'
-import { toast } from 'react-toastify'
 
 interface Props {
     product: IProduct

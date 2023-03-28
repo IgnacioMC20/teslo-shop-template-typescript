@@ -1,8 +1,9 @@
+import { Typography } from '@mui/material';
+
 import { ShopLayout } from '@/components/layout';
 import { ProductList } from '@/components/products';
 import { FabButton, LoadingScreen } from '@/components/ui';
 import { useFabButton, useProducts } from '@/hooks';
-import { Typography } from '@mui/material';
 
 const MenPage = () => {
   const { products, isLoading } = useProducts('/products?gender=men');

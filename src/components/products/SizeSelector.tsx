@@ -1,7 +1,9 @@
-import { ISize } from "@/interfaces";
+import { FC } from "react"
+
 import { Button } from "@mui/material"
 import { Box } from "@mui/system"
-import { FC } from "react"
+
+import { ISize } from "@/interfaces";
 
 interface Props {
     selectedSize: ISize;

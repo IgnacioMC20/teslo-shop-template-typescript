@@ -1,8 +1,10 @@
+import { NextPage } from 'next';
+import NextLink from "next/link"
+
 import { Button, Card, CardContent, Divider, Grid, Link, Typography } from "@mui/material"
 import { Box } from "@mui/system"
-import NextLink from "next/link"
+
 import { ShopLayout } from "@/components/layout"
-import { NextPage } from 'next';
 import { CartList, OrderSummary } from "@/components/cart"
 
 const SummaryPage: NextPage = () => {

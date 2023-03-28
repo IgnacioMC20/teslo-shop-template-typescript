@@ -1,5 +1,6 @@
-import { ICartProduct, IUser } from "@/interfaces";
 import { createContext } from "react";
+
+import { IUser } from "@/interfaces";
 
 interface ContextPros {
     isLoggedIn: boolean;
@@ -8,6 +9,7 @@ interface ContextPros {
     //Methods
     loginUser: (email: string, password: string) => Promise<boolean>
     registerUser: (email: string, password: string, name: string) => Promise<boolean>
+    logoutUser: () => void
 }
 
 export const AuthContext = createContext({} as ContextPros);

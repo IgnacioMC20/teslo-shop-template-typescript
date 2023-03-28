@@ -1,9 +1,10 @@
-import { ShopLayout } from '@/components/layout'
-import { Chip, Grid, Link, Typography } from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid'
 import { NextPage } from 'next'
 import NextLink from 'next/link'
-import React from 'react'
+
+import { Chip, Grid, Link, Typography } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
+
+import { ShopLayout } from '@/components/layout'
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 100 },

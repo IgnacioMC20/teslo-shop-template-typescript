@@ -1,9 +1,11 @@
-import { CartContext, UIContext } from '@/context';
-import { ClearOutlined, SearchOutlined, Menu, ShoppingCartOutlined } from '@mui/icons-material';
-import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Link,  Toolbar, Typography } from '@mui/material';
+import { useContext, useState } from 'react'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router';
-import React, { useContext, useState } from 'react'
+
+import { ClearOutlined, SearchOutlined, Menu, ShoppingCartOutlined } from '@mui/icons-material';
+import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Link, Toolbar, Typography } from '@mui/material';
+
+import { CartContext, UIContext } from '@/context';
 
 export const Navbar = () => {
     const router = useRouter();
@@ -33,31 +35,31 @@ export const Navbar = () => {
 
                 {
                     !isSearchVisible && (
-                <Box className="fadeIn" sx={{ display: { xs: 'none', sm: 'block' } }}>
-                    <NextLink href={'/category/men'} legacyBehavior passHref>
-                        <Link>
-                            <Button color={router.pathname === '/category/men' ? 'secondary' : 'info' }>
-                                {/* <Button color={router.pathname === '/category/men' ? 'secondary' : 'info'}>Men</Button> */}
-                                Hombres
-                            </Button>
-                        </Link>
-                    </NextLink>
-                    <NextLink href={'/category/women'} legacyBehavior passHref>
-                        <Link>
-                            <Button color={router.pathname === '/category/women' ? 'secondary' : 'info' }>
-                                Mujeres
-                            </Button>
-                        </Link>
-                    </NextLink>
-                    <NextLink href={'/category/kids'} legacyBehavior passHref>
-                        <Link>
-                            <Button color={router.pathname === '/category/kids' ? 'secondary' : 'info' }>
-                                Niños
-                            </Button>
-                        </Link>
-                    </NextLink>
-                </Box>
-                )
+                        <Box className="fadeIn" sx={{ display: { xs: 'none', sm: 'block' } }}>
+                            <NextLink href={'/category/men'} legacyBehavior passHref>
+                                <Link>
+                                    <Button color={router.pathname === '/category/men' ? 'secondary' : 'info'}>
+                                        {/* <Button color={router.pathname === '/category/men' ? 'secondary' : 'info'}>Men</Button> */}
+                                        Hombres
+                                    </Button>
+                                </Link>
+                            </NextLink>
+                            <NextLink href={'/category/women'} legacyBehavior passHref>
+                                <Link>
+                                    <Button color={router.pathname === '/category/women' ? 'secondary' : 'info'}>
+                                        Mujeres
+                                    </Button>
+                                </Link>
+                            </NextLink>
+                            <NextLink href={'/category/kids'} legacyBehavior passHref>
+                                <Link>
+                                    <Button color={router.pathname === '/category/kids' ? 'secondary' : 'info'}>
+                                        Niños
+                                    </Button>
+                                </Link>
+                            </NextLink>
+                        </Box>
+                    )
                 }
 
                 <Box flex={1} />
@@ -112,10 +114,17 @@ export const Navbar = () => {
                     </Link>
                 </NextLink>
 
+                <NextLink href='/auth/login' passHref legacyBehavior>
+                    <Link>
+                        <Button color='primary'>
+                            Login
+                        </Button>
+                    </Link>
+                </NextLink>
+
                 <IconButton onClick={toggleSideMenu}>
                     <Menu />
                 </IconButton>
-
 
             </Toolbar>
         </AppBar>

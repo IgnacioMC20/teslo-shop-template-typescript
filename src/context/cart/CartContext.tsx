@@ -1,5 +1,6 @@
-import { ICartProduct } from "@/interfaces";
 import { createContext } from "react";
+
+import { ICartProduct } from "@/interfaces";
 
 interface ContextPros {
     cart: ICartProduct[]

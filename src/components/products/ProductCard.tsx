@@ -1,7 +1,9 @@
-import { IProduct } from '@/interfaces';
-import { Box, Card, CardActionArea, CardMedia, Chip, Grid, Link, Typography } from '@mui/material'
 import NextLink from 'next/link';
 import { FC, useMemo, useState } from 'react'
+
+import { Box, Card, CardActionArea, CardMedia, Chip, Grid, Link, Typography } from '@mui/material'
+
+import { IProduct } from '@/interfaces';
 
 interface Porps{
     product: IProduct;

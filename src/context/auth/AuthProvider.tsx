@@ -1,12 +1,12 @@
-import { IUser } from "@/interfaces";
 import { FC, useReducer, useEffect } from 'react';
-import { authReducer } from './authReducer';
-import { AuthContext } from './AuthContext';
+import { useRouter } from 'next/router';
+
 import { toast } from "react-toastify";
-import { tesloApi } from "@/api";
 import Cookies from "js-cookie";
-import async from '../../pages/api/seed';
-import { Router, useRouter } from 'next/router';
+
+import { authReducer, AuthContext } from '.';
+import { IUser } from "@/interfaces";
+import { tesloApi } from "@/api";
 
 
 export interface AuthState {
@@ -35,7 +35,6 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
         try {
             const data = await tesloApi({ url: '/user/validate-token' });
             const { message, token, user } = await data.json();
-            console.log({ message, token, user });
 
             if (message) {
                 router.push('/auth/login')
@@ -60,7 +59,6 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
                 method: 'POST'
             });
             const { message, token, user } = await data.json();
-            console.log({ message, token, user });
             if (message) {
                 toast(message, {
                     position: "top-right",
@@ -91,7 +89,6 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
                 method: 'POST'
             });
             const { message, token, user } = await data.json();
-            console.log({ message, token, user });
             if (message) {
                 toast(message, {
                     position: "top-right",
@@ -114,13 +111,20 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
         }
     }
 
+    const logoutUser = () => {
+      Cookies.remove('cart')
+      Cookies.remove('token')
+      router.reload()
+    }
+
     return (
         <AuthContext.Provider value={{
             ...state,
 
             //Methods
             loginUser,
-            registerUser
+            registerUser,
+            logoutUser
         }}>
             {children}
         </AuthContext.Provider>

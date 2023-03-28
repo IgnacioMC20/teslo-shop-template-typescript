@@ -1,4 +1,5 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
+
 import { Slide } from 'react-slideshow-image'
 import styles from './ProductSlideshow.module.css';
 

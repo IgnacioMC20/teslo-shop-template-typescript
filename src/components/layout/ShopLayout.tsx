@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import React, { FC } from 'react'
+
 import { Navbar, SideMenu } from '../ui';
 
 

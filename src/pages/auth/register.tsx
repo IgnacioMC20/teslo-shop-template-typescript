@@ -5,7 +5,6 @@ import React from 'react'
 import { Button, Card, Grid, Link, TextField, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
-import { tesloApi } from '@/api'
 import { AuthLayout } from '@/components/layout'
 import { validations } from '@/utils'
 import { useContext } from 'react';
@@ -30,8 +29,9 @@ const RegisterPage: NextPage = () => {
     const onRegisterUser = async ({ email, password, name, lastname }: FormData) => {
        const fullName = `${name.trim()} ${lastname.trim()}`
        const isValidRegister = await registerUser(email, password, fullName);
-       // Todo: navegar a la pantalla en donde el usuario estaba
-       if(isValidRegister) router.replace('/')
+    
+       const destination = router.query.p?.toString() || '/';
+        if(isValidRegister) router.replace(destination)
     }
 
     const samePasswordAs = (password: string) => {
@@ -126,7 +126,7 @@ const RegisterPage: NextPage = () => {
                                     <Button size='large' type='submit' fullWidth>Crear</Button>
                                 </Grid>
                                 <Grid item xs={12} display='flex' justifyContent='end'>
-                                    <NextLink href='/auth/login' passHref legacyBehavior>
+                                    <NextLink href={router.query.p ? `/auth/login?p=${router.query.p.toString()}` : '/auth/login'} passHref legacyBehavior>
                                         <Link underline='hover'>
                                             Ya tienes cuenta?
                                         </Link>

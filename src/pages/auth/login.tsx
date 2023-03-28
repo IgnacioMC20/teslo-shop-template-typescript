@@ -25,8 +25,8 @@ const LoginPage: NextPage = () => {
     const onLoginUser = async ({ email, password }: FormData) => {
         const isValidLogin = await loginUser(email, password);
 
-        // Todo: navegar a la pantalla en donde el usuario estaba
-        if(isValidLogin) router.replace('/')
+        const destination = router.query.p?.toString() || '/';
+        if(isValidLogin) router.replace(destination)
     }
 
     return (
@@ -71,7 +71,7 @@ const LoginPage: NextPage = () => {
                                     <Button type='submit' size='large' fullWidth>Ingresar</Button>
                                 </Grid>
                                 <Grid item xs={12} display='flex' justifyContent='end'>
-                                    <NextLink href='/auth/register' passHref legacyBehavior>
+                                    <NextLink href={router.query.p ? `/auth/register?p=${router.query.p.toString()}` : '/auth/register'} passHref legacyBehavior>
                                         <Link underline='hover'>
                                             No tienes cuenta?
                                         </Link>

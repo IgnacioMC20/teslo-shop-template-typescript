@@ -10,7 +10,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
 
 import { AuthProvider, CartProvider, UIProvider } from '@/context';
-import { lightTheme } from '../themes/light-theme';
+import { lightTheme } from '@/themes';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

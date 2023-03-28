@@ -1,6 +1,7 @@
+import { useState } from 'react';
+
 import { ArrowUpward } from '@mui/icons-material'
 import { Fab } from '@mui/material'
-import { useState } from 'react';
 
 export const FabButton = () => {
     const [showButton, setShowButton] = useState(false);

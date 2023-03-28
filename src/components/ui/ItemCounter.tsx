@@ -1,7 +1,7 @@
+import { FC } from "react"
 import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material"
 import { IconButton, Typography } from "@mui/material"
 import { Box } from "@mui/system"
-import { FC, useEffect, useState } from "react"
 
 interface Props {
     currentQuantity: number;
