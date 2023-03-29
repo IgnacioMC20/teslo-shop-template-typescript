@@ -1,15 +1,30 @@
+import { useContext, useEffect } from 'react';
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 
 import { Button, Card, CardContent, Divider, Grid, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 
 import { CartList, OrderSummary } from "@/components/cart";
 import { ShopLayout } from "@/components/layout";
-import { useRouter } from "next/router";
+import { CartContext } from "@/context";
+import { LoadingScreen } from "@/components/ui";
 
 const index: NextPage = () => {
 
     const router = useRouter()
+    const { isLoaded, cart} = useContext(CartContext)
+
+    useEffect(() => {
+      if(isLoaded && cart.length === 0){
+        router.replace('/cart/empty')
+      }
+    }, [isLoaded, cart, router])
+
+    if(!isLoaded || cart.length === 0){
+        return (<></>);
+    } 
+
     return (
         <ShopLayout title={`Carrito - (3)`} pageDescription={'Carrito de compra'}>
             <Typography variant='h1' component='h1'>Carrito</Typography>

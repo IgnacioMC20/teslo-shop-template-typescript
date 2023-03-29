@@ -68,7 +68,8 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
                     pauseOnHover: false,
                     draggable: false,
                     theme: "light",
-                    type: 'error'
+                    type: 'error',
+                    closeButton: false
                 })
                 return false;
             }
@@ -98,7 +99,8 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
                     pauseOnHover: false,
                     draggable: false,
                     theme: "light",
-                    type: 'error'
+                    type: 'error',
+                    closeButton: false
                 })
                 return false;
             }

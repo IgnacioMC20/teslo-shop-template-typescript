@@ -53,10 +53,12 @@ const ProductPage: NextPage<Props> = ({ product }) => {
         //Todo: llamar la accion del context para agregar al carrito
         addProductToCart(tempCartProduct)
         toast('producto agregado al carrito',{
+            position: "top-right",
             pauseOnFocusLoss: false,
             pauseOnHover: false,
             autoClose: 2000,
             closeOnClick: false,
+            closeButton: false,
             style: {
                 maxWidth: '90vw',
                 width: 'auto',

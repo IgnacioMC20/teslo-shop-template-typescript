@@ -1,5 +1,5 @@
 import { db, initialData } from "@/database";
-import { Product, User } from "@/models";
+import { Department, Product, User } from "@/models";
 import { NextApiRequest, NextApiResponse } from "next";
 
 type Data = { message: string }
@@ -14,6 +14,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     await User.deleteMany();
     await User.insertMany( initialData.users )
+
+    await Department.deleteMany();
+    await Department.insertMany(initialData.departments)
 
     await Product.deleteMany();
     await Product.insertMany( initialData.products )
