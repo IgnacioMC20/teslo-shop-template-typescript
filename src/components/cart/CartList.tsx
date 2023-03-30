@@ -53,7 +53,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                             </Box>
                         </Grid>
                         <Grid item xs={3} display='flex' alignItems='center' justifyContent={'center'} flexDirection='column'>
-                            <Typography variant="subtitle1" >{`$${product.price}`}</Typography>
+                            <Typography variant="subtitle1" >{`Q ${product.price}`}</Typography>
                             {
                                 editable && (
                                     <Button variant="text" color="secondary" onClick={() => removeCartProduct(product)}>

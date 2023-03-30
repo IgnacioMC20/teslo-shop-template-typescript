@@ -4,10 +4,13 @@ import { Button, FormControl, Grid, InputAdornment, InputLabel, MenuItem, Select
 
 import { ShopLayout } from '@/components/layout';
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { IDepartment } from '@/interfaces';
 import { tesloApi } from '@/api';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
+import { CartContext } from '@/context';
 
 type FormData = {
   firstName: string;
@@ -20,17 +23,33 @@ type FormData = {
   phone: string;
 }
 
+const getAdressFromCookies = () => {
+  return {
+    firstName: Cookies.get('firstName') || '',
+    lastName: Cookies.get('lastName') || '',
+    adress: Cookies.get('adress') || '',
+    zipCode: Cookies.get('zipCode') || '',
+    city: Cookies.get('city') || '',
+    country: Cookies.get('country') || 'GT',
+    department: Cookies.get('department') || '',
+    phone: Cookies.get('phone') || '',
+  }
+}
+
 const AdressPage: NextPage = () => {
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
+  const router = useRouter();
+  const { updateAdress } = useContext(CartContext);
+
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
+    defaultValues: getAdressFromCookies()
+  });
   const [departments, setDepartments] = useState<IDepartment[]>([
     {
       title: 'Guatemala',
       code: 'GT'
     }
   ])
-
-  console.log(departments);
 
   useEffect(() => {
     getDepartments();
@@ -57,143 +76,125 @@ const AdressPage: NextPage = () => {
       setDepartments(departments);
   }
   
-
   const onSendAdress = (data: FormData) => {
     console.log(data)
+    updateAdress(data)
+    router.push('/checkout/summary')
   }
 
   return (
     <ShopLayout title={'Adress'} pageDescription={'Confirm your adress'}>
-    <Typography variant='h1' component='h1'>Direccción de envío</Typography>
-      <form onSubmit={handleSubmit(onSendAdress)}>
-    <Grid container spacing={2} sx={{mt: 5}}>
-        <Grid item xs={12} sm={6}>
-          <TextField label='Nombres' variant='outlined' fullWidth
-          {
-            ...register('firstName',{
-              required: 'Este campo es requerido'
-            })
-          }
-          error={!!errors.firstName}
-          helperText={errors.firstName?.message}
-          />
+      <Typography variant='h1' component='h1'>Direccción de envío</Typography>
+      <form onSubmit={handleSubmit(onSendAdress)} noValidate>
+        <Grid container spacing={2} sx={{mt: 5}}>
+            <Grid item xs={12} sm={6}>
+              <TextField label='Nombres' variant='outlined' fullWidth
+                {
+                  ...register('firstName',{
+                    required: 'Este campo es requerido'
+                  })
+                }
+                error={!!errors.firstName}
+                helperText={errors.firstName?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField label='Apellidos' variant='outlined' fullWidth
+                {
+                  ...register('lastName',{
+                    required: 'Este campo es requerido'
+                  })
+                }
+                error={!!errors.lastName}
+                helperText={errors.lastName?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField label='Dirección' variant='outlined' fullWidth
+                {
+                  ...register('adress',{
+                    required: 'Este campo es requerido'
+                  })
+                }
+                error={!!errors.adress}
+                helperText={errors.adress?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField label='Codigo postal' variant='outlined' fullWidth
+                {
+                  ...register('zipCode',{
+                    required: 'Este campo es requerido'
+                  })
+                }
+                error={!!errors.zipCode}
+                helperText={errors.zipCode?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField label='País' variant='outlined' value={'Guatemala'} disabled fullWidth
+                {
+                  ...register('country',{
+                    required: 'Este campo es requerido'
+                  })
+                }
+                error={!!errors.country}
+                helperText={errors.country?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <InputLabel>Departamento</InputLabel>
+                <Select variant='outlined' label='Departamento' defaultValue='Guatemala'
+                  {
+                    ...register('department',{
+                      required: 'Este campo es requerido'
+                    })
+                  }
+                >
+                    {
+                      departments.map( department => (
+                        <MenuItem key={department.code} value={department.title}>{department.title}</MenuItem>
+                        ))
+                    }
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField label='Municipio' variant='outlined' fullWidth
+                {
+                  ...register('city',{
+                    required: 'Este campo es requerido'
+                  })
+                }
+                error={!!errors.city}
+                helperText={errors.city?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField label='Número de Teléfono' variant='outlined' fullWidth
+                {
+                  ...register('phone',{
+                    required: 'Este campo es requerido',
+                    minLength: { value: 8, message: 'No es un numero de telefono válido'}
+                  })
+                }
+                InputProps={{
+                    startAdornment: <InputAdornment position="start">+502</InputAdornment>,
+                }}
+                error={!!errors.phone}
+                helperText={errors.phone?.message}  
+              />
+            </Grid>
+            <Grid item xs={12} display='flex' justifyContent='center' sx={{my: 3}}>
+              <Button color='secondary' type='submit' sx={{padding: 2}} size='large'>
+                <Typography variant='body1'>Realizar pedido</Typography>
+              </Button>
+            </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField label='Apellidos' variant='outlined' fullWidth
-          {
-            ...register('lastName',{
-              required: 'Este campo es requerido'
-            })
-          }
-          error={!!errors.lastName}
-          helperText={errors.lastName?.message}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField label='Dirección' variant='outlined' fullWidth
-          {
-            ...register('adress',{
-              required: 'Este campo es requerido'
-            })
-          } />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField label='Codigo postal' variant='outlined' fullWidth
-          {
-            ...register('zipCode',{
-              required: 'Este campo es requerido'
-            })
-          }
-          error={!!errors.zipCode}
-          helperText={errors.zipCode?.message}
-          />
-        </Grid>
-        
-        <Grid item xs={12} sm={6}>
-          <TextField label='País' variant='outlined' value={'Guatemala'} disabled fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <InputLabel>Departamento</InputLabel>
-            <Select variant='outlined' label='Departamento' defaultValue='GT'>
-              {/* <MenuItem value={'GT'}>Guatemala</MenuItem> */}
-              {
-                departments.map( department => (
-                  <MenuItem key={department.code} value={department.code}>{department.title}</MenuItem>
-                  ))
-              }
-        
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField label='Ciudad' variant='outlined' fullWidth
-          {
-            ...register('city',{
-              required: 'Este campo es requerido'
-            })
-          }
-          error={!!errors.city}
-          helperText={errors.city?.message}
-          />
-        </Grid>
-       
-        <Grid item xs={12} sm={6}>
-          <TextField label='Número de Teléfono' variant='outlined' fullWidth
-          {
-            ...register('phone',{
-              required: 'Este campo es requerido',
-               minLength: { value: 8, message: 'No es un numero de telefono válido'}
-            })
-          }
-          InputProps={{
-              startAdornment: <InputAdornment position="start">+502</InputAdornment>,
-          }}
-          error={!!errors.phone}
-          helperText={errors.phone?.message}  
-          />
-        </Grid>
-        
-        <Grid item xs={12} display='flex' justifyContent='center' sx={{my: 3}}>
-          <Button color='secondary' type='submit' sx={{padding: 2}} size='large'>
-            <Typography variant='body1'>Realizar pedido</Typography>
-          </Button>
-        </Grid>
-
-    </Grid>
       </form>
-  </ShopLayout>
+    </ShopLayout>
   )
 }
 
-export default AdressPage
-
-// You should use getServerSideProps when:
-// - Only if you need to pre-render a page whose data must be fetched at request time
-
-// export const getServerSideProps: GetServerSideProps = async ({req}) => {
-//   const { token = '' } = req.cookies;
-//   let userId = '', isValidToken = false;
-
-//   try {
-//     userId = await jwt.isValidtoken(token);
-//     isValidToken = true;
-//   } catch (error) {
-//     isValidToken = false;
-//   }
-
-//   if(!isValidToken){
-//     return {
-//       redirect: {
-//         destination: '/auth/login?p=/checkout/adress',
-//         permanent: false
-//       }
-//     }
-//   }
-
-//   return {
-//     props: {
-      
-//     }
-//   }
-// }
+export default AdressPage;

@@ -26,7 +26,7 @@ const LoginPage: NextPage = () => {
         const isValidLogin = await loginUser(email, password);
 
         const destination = router.query.p?.toString() || '/';
-        if(isValidLogin) router.replace(destination)
+        if (isValidLogin) router.replace(destination)
     }
 
     return (
