@@ -1,3 +1,6 @@
 export * from './Navbar'
 export * from './LoadingScreen'
 export * from './SideMenu'
+export * from './ItemCounter'
+export * from './Footer'
+export * from './FabButton'

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
-import { ShopLayout } from '../components/layout/ShopLayout';
+
+import { ShopLayout } from '@/components/layout'
 
 const Custom404 = () => {
     return (
