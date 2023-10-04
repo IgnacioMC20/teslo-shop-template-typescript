@@ -5,12 +5,13 @@ import { useRouter } from 'next/router';
 import { ClearOutlined, SearchOutlined, Menu, ShoppingCartOutlined } from '@mui/icons-material';
 import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Link, Toolbar, Typography } from '@mui/material';
 
-import { CartContext, UIContext } from '@/context';
+import { AuthContext, CartContext, UIContext } from '@/context';
 
 export const Navbar = () => {
     const router = useRouter();
     const { toggleSideMenu } = useContext(UIContext)
     const { numberOfItems } = useContext(CartContext)
+    const { isLoggedIn } = useContext(AuthContext)
 
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -114,13 +115,15 @@ export const Navbar = () => {
                     </Link>
                 </NextLink>
 
-                <NextLink href='/auth/login' passHref legacyBehavior>
-                    <Link>
-                        <Button color='primary'>
-                            Login
-                        </Button>
-                    </Link>
-                </NextLink>
+                {!isLoggedIn && (
+                    <NextLink href='/auth/login' passHref legacyBehavior>
+                        <Link>
+                            <Button color='primary'>
+                                Login
+                            </Button>
+                        </Link>
+                    </NextLink>
+                )}
 
                 <IconButton onClick={toggleSideMenu}>
                     <Menu />
