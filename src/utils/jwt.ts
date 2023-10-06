@@ -27,8 +27,8 @@ export const isValidtoken = (token: string): Promise<string> => {
             jwt.verify(token, process.env.JWT_SECRET_SEED || '', (err, payload) => {
                 if (err) return reject('JWT no es valido')
 
-                const { _id } = payload as { _id: string };
-                resolve(_id);
+                const { _id } = payload as { _id: string }
+                resolve(_id)
             })
         } catch (error) {
             reject('JWT no es valido')

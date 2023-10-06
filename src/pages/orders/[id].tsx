@@ -1,16 +1,16 @@
-import { NextPage } from "next"
-import NextLink from "next/link"
 
-import { CreditCardOffOutlined, CreditScoreOutlined } from "@mui/icons-material"
-import { Button, Card, CardContent, Chip, Divider, Grid, Link, Typography } from "@mui/material"
-import { Box } from "@mui/system"
+import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material'
+import { Button, Card, CardContent, Chip, Divider, Grid, Link, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import { NextPage } from 'next'
+import NextLink from 'next/link'
 
-import { CartList, OrderSummary } from "@/components/cart"
-import { ShopLayout } from "@/components/layout"
+import { CartList, OrderSummary } from '@/components/cart'
+import { ShopLayout } from '@/components/layout'
 
 const OrderPage: NextPage = () => {
     return (
-        <ShopLayout title={`Order 123abc`} pageDescription={'Order 123abc'}>
+        <ShopLayout title={'Order 123abc'} pageDescription={'Order 123abc'}>
             <Typography variant='h1' component='h1'>Order: 123abc</Typography>
 
             <Chip
@@ -37,16 +37,16 @@ const OrderPage: NextPage = () => {
                     <Card className='summary-card' sx={{ padding: '5px 20px', boxShadow: '20px 20px 10px grey' }}>
                         <CardContent>
                             <Box display='flex' justifyContent='space-between' sx={{ my: 2 }}>
-                                <Typography variant='h2'>Adress</Typography>
+                                <Typography variant='h2'>Address</Typography>
 
-                                <NextLink href='/checkout/adress' passHref legacyBehavior>
+                                <NextLink href='/checkout/address' passHref legacyBehavior>
                                     <Link underline="hover">
                                         Edit
                                     </Link>
                                 </NextLink>
                             </Box>
 
-                            <Typography variant='subtitle1'>Adress</Typography>
+                            <Typography variant='subtitle1'>Address</Typography>
                             <Typography>Fernando Herrera</Typography>
                             <Typography>323 Somewhere</Typography>
                             <Typography>Antigua Guatemala, Guatemala</Typography>

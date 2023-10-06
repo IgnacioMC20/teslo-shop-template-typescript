@@ -1,14 +1,14 @@
-import { useContext, useEffect } from 'react';
-import { NextPage } from "next";
-import { useRouter } from "next/router";
 
-import { Button, Card, CardContent, Divider, Grid, Typography } from "@mui/material"
-import { Box } from "@mui/system"
-import Cookies from 'js-cookie';
+import { Button, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import Cookies from 'js-cookie'
+import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useContext, useEffect } from 'react'
 
-import { CartList, OrderSummary } from "@/components/cart";
-import { ShopLayout } from "@/components/layout";
-import { CartContext } from "@/context";
+import { CartList, OrderSummary } from '@/components/cart'
+import { ShopLayout } from '@/components/layout'
+import { CartContext } from '@/context'
 
 const index: NextPage = () => {
 
@@ -22,18 +22,18 @@ const index: NextPage = () => {
     }, [isLoaded, cart, router])
 
     if (!isLoaded || cart.length === 0) {
-        return (<></>);
+        return (<></>)
     }
 
     const onCheckout = () => {
-        if(!Cookies.get('lastName') || !Cookies.get('firstName') || !Cookies.get('adress') || Cookies.get('city')){
-            router.push('/checkout/adress')
+        if(!Cookies.get('lastName') || !Cookies.get('firstName') || !Cookies.get('address') || Cookies.get('city')){
+            router.push('/checkout/address')
         }else router.push('/checkout/summary')
         
     }
 
     return (
-        <ShopLayout title={`Carrito - (3)`} pageDescription={'Carrito de compra'}>
+        <ShopLayout title={'Carrito - (3)'} pageDescription={'Carrito de compra'}>
             <Typography variant='h1' component='h1'>Carrito</Typography>
             <Grid container columns={12}>
                 <Grid item xs={12} sm={7} >

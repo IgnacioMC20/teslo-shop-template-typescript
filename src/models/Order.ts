@@ -1,6 +1,6 @@
-import { IOrder } from "@/interfaces";
-import mongoose, { model, Schema, Model } from "mongoose";
+import mongoose, { model, Schema, Model } from 'mongoose'
 
+import { IOrder } from '@/interfaces'
 
 const orderSchema = new Schema({
 

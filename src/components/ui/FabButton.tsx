@@ -1,16 +1,16 @@
-import { useState } from 'react';
 
 import { ArrowUpward } from '@mui/icons-material'
 import { Fab } from '@mui/material'
+import { useState } from 'react'
 
 export const FabButton = () => {
-    const [showButton, setShowButton] = useState(false);
+    const [showButton, setShowButton] = useState(false)
 
     function handleScroll() {
         if (window.pageYOffset > 0) {
-            setShowButton(true);
+            setShowButton(true)
         } else {
-            setShowButton(false);
+            setShowButton(false)
         }
     }
     return (

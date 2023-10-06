@@ -1,9 +1,9 @@
-import Head from "next/head"
-import { FC } from "react";
+import Head from 'next/head'
+import { FC } from 'react'
 
 interface Props {
-    title: string;
-    children: React.ReactNode;
+    title: string
+    children: React.ReactNode
 
 }
 
@@ -17,7 +17,7 @@ export const AuthLayout: FC<Props> = ({ title, children}) => {
             </Head>
 
             <main style={{
-                backgroundImage: "url('/purplewave.svg')",
+                backgroundImage: 'url(\'/purplewave.svg\')',
                 backgroundColor: 'white',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',

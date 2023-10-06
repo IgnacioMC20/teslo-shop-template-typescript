@@ -1,14 +1,13 @@
-import { FC, useContext } from "react"
+import { Grid, Typography } from '@mui/material'
+import { FC, useContext } from 'react'
 
-import { Grid, Typography } from "@mui/material"
-
-import { CartContext } from "@/context"
-import { currency } from "@/utils"
+import { CartContext } from '@/context'
+import { currency } from '@/utils'
 
 export const OrderSummary: FC = () => {
 
     const { total, tax, subTotal, numberOfItems } = useContext(CartContext)
-    // const numberOfItems = 4, subTotal = 5, tax = 10, total = 102;
+    // const numberOfItems = 4, subTotal = 5, tax = 10, total = 102
   return (
     <Grid container>
         <Grid item xs={6}>

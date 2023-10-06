@@ -1,15 +1,14 @@
-import { FC, useContext } from "react"
-import NextLink from "next/link"
+import { Button, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import NextLink from 'next/link'
+import { FC, useContext } from 'react'
 
-import { Button, CardActionArea, CardMedia, Grid, Link, Typography } from "@mui/material"
-import { Box } from "@mui/system"
-
-import { CartContext } from "@/context"
-import { ICartProduct } from "@/interfaces"
-import { ItemCounter } from "../ui"
+import { ItemCounter } from '../ui'
+import { CartContext } from '@/context'
+import { ICartProduct } from '@/interfaces'
 
 interface Props {
-    editable?: boolean;
+    editable?: boolean
 }
 
 export const CartList: FC<Props> = ({ editable = false }) => {

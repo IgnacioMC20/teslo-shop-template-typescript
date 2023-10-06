@@ -1,7 +1,7 @@
 import { FC } from 'react'
-
 import { Slide } from 'react-slideshow-image'
-import styles from './ProductSlideshow.module.css';
+
+import styles from './ProductSlideshow.module.css'
 
 interface Props {
     images: string[]

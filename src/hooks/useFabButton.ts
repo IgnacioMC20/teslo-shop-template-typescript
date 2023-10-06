@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 interface FabButton {
-    showButton: boolean;
+    showButton: boolean
 }
 
 export const useFabButton = (): FabButton => {
-    const [showButton, setShowButton] = useState<boolean>(false);
+    const [showButton, setShowButton] = useState<boolean>(false)
 
     function handleScroll(): void {
         if (window.scrollY > 0) {
-            setShowButton(true);
+            setShowButton(true)
         } else {
-            setShowButton(false);
+            setShowButton(false)
         }
     }
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll)
         return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
 
     return {
         showButton

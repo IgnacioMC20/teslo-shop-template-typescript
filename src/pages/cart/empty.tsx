@@ -1,11 +1,11 @@
-import { NextPage } from "next"
-import NextLink from "next/link"
 
-import { ArrowBack, RemoveShoppingCartOutlined } from "@mui/icons-material"
-import { Link, Typography } from "@mui/material"
-import { Box } from "@mui/system"
+import { ArrowBack, RemoveShoppingCartOutlined } from '@mui/icons-material'
+import { Link, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import { NextPage } from 'next'
+import NextLink from 'next/link'
 
-import { ShopLayout } from "@/components/layout"
+import { ShopLayout } from '@/components/layout'
 
 const EmptyPage: NextPage = () => {
     return (

@@ -1,33 +1,33 @@
-import { NextPage } from 'next'
 
 import { Button, FormControl, Grid, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import Cookies from 'js-cookie'
+import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useContext, useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
-import { ShopLayout } from '@/components/layout';
-import { useForm } from 'react-hook-form';
-import { useContext, useEffect, useState } from 'react';
-import { IDepartment } from '@/interfaces';
-import { tesloApi } from '@/api';
-import { toast } from 'react-toastify';
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
-import { CartContext } from '@/context';
+import { tesloApi } from '@/api'
+import { ShopLayout } from '@/components/layout'
+import { CartContext } from '@/context'
+import { IDepartment } from '@/interfaces'
 
 type FormData = {
-  firstName: string;
-  lastName: string;
-  adress: string;
-  zipCode: string;
-  city: string;
-  country: string;
-  department: string;
-  phone: string;
+  firstName: string
+  lastName: string
+  address: string
+  zipCode: string
+  city: string
+  country: string
+  department: string
+  phone: string
 }
 
-const getAdressFromCookies = () => {
+const getAddressFromCookies = () => {
   return {
     firstName: Cookies.get('firstName') || '',
     lastName: Cookies.get('lastName') || '',
-    adress: Cookies.get('adress') || '',
+    address: Cookies.get('address') || '',
     zipCode: Cookies.get('zipCode') || '',
     city: Cookies.get('city') || '',
     country: Cookies.get('country') || 'GT',
@@ -36,14 +36,14 @@ const getAdressFromCookies = () => {
   }
 }
 
-const AdressPage: NextPage = () => {
+const AddressPage: NextPage = () => {
 
-  const router = useRouter();
-  const { updateAdress } = useContext(CartContext);
+  const router = useRouter()
+  const { updateAddress } = useContext(CartContext)
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
-    defaultValues: getAdressFromCookies()
-  });
+    defaultValues: getAddressFromCookies()
+  })
   const [departments, setDepartments] = useState<IDepartment[]>([
     {
       title: 'Guatemala',
@@ -52,40 +52,40 @@ const AdressPage: NextPage = () => {
   ])
 
   useEffect(() => {
-    getDepartments();
+    getDepartments()
   }, [])
 
   //todo: use staticprops to get departments
   const getDepartments = async() => {
-      const data = await tesloApi({ url: '/departments' });
-      const { message, departments } = await data.json();
+      const data = await tesloApi({ url: '/departments' })
+      const { message, departments } = await data.json()
       if (message) {
         toast(message,{
-          position: "top-right",
+          position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: false,
           pauseOnHover: false,
           draggable: false,
-          theme: "light",
+          theme: 'light',
           type: 'error',
           closeButton: false
         })
-        return;
+        return
       }
-      setDepartments(departments);
+      setDepartments(departments)
   }
   
-  const onSendAdress = (data: FormData) => {
+  const onSendAddress = (data: FormData) => {
     console.log(data)
-    updateAdress(data)
+    updateAddress(data)
     router.push('/checkout/summary')
   }
 
   return (
-    <ShopLayout title={'Adress'} pageDescription={'Confirm your adress'}>
+    <ShopLayout title={'Address'} pageDescription={'Confirm your address'}>
       <Typography variant='h1' component='h1'>Direccción de envío</Typography>
-      <form onSubmit={handleSubmit(onSendAdress)} noValidate>
+      <form onSubmit={handleSubmit(onSendAddress)} noValidate>
         <Grid container spacing={2} sx={{mt: 5}}>
             <Grid item xs={12} sm={6}>
               <TextField label='Nombres' variant='outlined' fullWidth
@@ -112,12 +112,12 @@ const AdressPage: NextPage = () => {
             <Grid item xs={12} sm={6}>
               <TextField label='Dirección' variant='outlined' fullWidth
                 {
-                  ...register('adress',{
+                  ...register('address',{
                     required: 'Este campo es requerido'
                   })
                 }
-                error={!!errors.adress}
-                helperText={errors.adress?.message}
+                error={!!errors.address}
+                helperText={errors.address?.message}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -197,4 +197,4 @@ const AdressPage: NextPage = () => {
   )
 }
 
-export default AdressPage;
+export default AddressPage

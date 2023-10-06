@@ -1,27 +1,26 @@
+import bcrypt from 'bcryptjs'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import bcrypt from 'bcryptjs';
-
-import { db } from '@/database';
-import { User } from '@/models';
-import { jwt, validations } from '@/utils';
-import { IUserApi } from '@/interfaces';
+import { db } from '@/database'
+import { IUserApi } from '@/interfaces'
+import { User } from '@/models'
+import { jwt, validations } from '@/utils'
 
 type Data = {
-    message?: string;
-    token?: string;
+    message?: string
+    token?: string
     user?: IUserApi
 }
 
 export default function (req: NextApiRequest, res: NextApiResponse<Data>) {
     switch (req.method) {
         case 'POST':
-            return registerUser(req, res);
+            return registerUser(req, res)
 
         default:
             return res.status(400).json({
                 message: 'Bad Request'
-            });
+            })
     }
 }
 // Todo: hacer mas validaciones
@@ -48,7 +47,7 @@ const registerUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
     }
 
     await db.connect()
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email })
     
     if (user) {
         await db.disconnect()
@@ -62,10 +61,10 @@ const registerUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
         password: bcrypt.hashSync(password),
         role: 'client',
         name
-    });
+    })
 
     try {
-        await newUser.save({ validateBeforeSave: true });
+        await newUser.save({ validateBeforeSave: true })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
@@ -73,7 +72,7 @@ const registerUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
         })
     }
 
-    const { _id, role } = newUser;
+    const { _id, role } = newUser
 
     return res.status(200).json({
         token: jwt.signToken(_id),

@@ -1,26 +1,24 @@
-import { useContext, useState } from 'react'
+import { ClearOutlined, SearchOutlined, Menu, ShoppingCartOutlined } from '@mui/icons-material'
+import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Link, Toolbar, Typography } from '@mui/material'
 import NextLink from 'next/link'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
+import { useContext, useState } from 'react'
 
-import { ClearOutlined, SearchOutlined, Menu, ShoppingCartOutlined } from '@mui/icons-material';
-import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Link, Toolbar, Typography } from '@mui/material';
-
-import { AuthContext, CartContext, UIContext } from '@/context';
+import { AuthContext, CartContext, UIContext } from '@/context'
 
 export const Navbar = () => {
-    const router = useRouter();
+    const router = useRouter()
     const { toggleSideMenu } = useContext(UIContext)
     const { numberOfItems } = useContext(CartContext)
     const { isLoggedIn } = useContext(AuthContext)
 
-    const [searchTerm, setSearchTerm] = useState('');
-    const [isSearchVisible, setIsSearchVisible] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('')
+    const [isSearchVisible, setIsSearchVisible] = useState(false)
 
     const onSearchTerm = () => {
-        if (searchTerm.trim().length === 0) return;
-        router.push(`/search/${searchTerm}`);
+        if (searchTerm.trim().length === 0) return
+        router.push(`/search/${searchTerm}`)
     }
-
 
     return (
         <AppBar>
@@ -82,8 +80,8 @@ export const Navbar = () => {
                                     <InputAdornment position="start">
                                         <IconButton
                                             onClick={() => {
-                                                setIsSearchVisible(false);
-                                                setSearchTerm('');
+                                                setIsSearchVisible(false)
+                                                setSearchTerm('')
                                             }}
                                         >
                                             <ClearOutlined />
@@ -100,7 +98,7 @@ export const Navbar = () => {
                         )
                 }
 
-                {/* pantallas peque;as */}
+                {/* pantallas pequeas */}
                 <IconButton sx={{ display: { xs: 'flex', sm: 'none' } }} onClick={toggleSideMenu}>
                     <SearchOutlined />
                 </IconButton>

@@ -1,13 +1,13 @@
-import { ISize } from ".";
+import { ISize } from '.'
 
 export interface ICartProduct {
-    _id?: string;
-    image: string;
-    price: number;
-    size: ISize;
+    _id?: string
+    image: string
+    price: number
+    size: ISize
     inStock: number
-    slug: string;
-    title: string;
+    slug: string
+    title: string
     gender: 'men'|'women'|'kid'|'unisex'
     quantity: number
 }

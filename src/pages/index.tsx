@@ -1,15 +1,15 @@
-import { NextPage } from 'next';
+import { Typography } from '@mui/material'
+import { NextPage } from 'next'
+import { useSession } from 'next-auth/react'
 
-import { Typography } from '@mui/material';
-
-import { ShopLayout } from '@/components/layout';
-import { FabButton, LoadingScreen } from '@/components/ui';
-import { ProductList } from '@/components/products';
-import { useFabButton, useProducts } from '@/hooks';
+import { ShopLayout } from '@/components/layout'
+import { ProductList } from '@/components/products'
+import { FabButton, LoadingScreen } from '@/components/ui'
+import { useFabButton, useProducts } from '@/hooks'
 
 const Home: NextPage = () => {
-  const { products, isLoading } = useProducts('/products');
-  const { showButton } = useFabButton();
+  const { products, isLoading } = useProducts('/products')
+  const { showButton } = useFabButton()
 
   return (
     <ShopLayout title={'Home'} pageDescription='Encuentra los mejores productos de teslo'>
@@ -27,4 +27,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home;
+export default Home

@@ -1,32 +1,32 @@
+import { Button, Card, Grid, Link, TextField, Typography } from '@mui/material'
 import { NextPage } from 'next'
 import NextLink from 'next/link'
-import React from 'react'
-
-import { Button, Card, Grid, Link, TextField, Typography } from '@mui/material'
+import { useRouter } from 'next/router'
+import { signIn } from 'next-auth/react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { AuthLayout } from '@/components/layout'
-import { validations } from '@/utils';
-import { useContext } from 'react';
 import { AuthContext } from '@/context'
-import { useRouter } from 'next/router';
+import { validations } from '@/utils'
 
 type FormData = {
     email: string,
     password: string,
-};
+}
 
 const LoginPage: NextPage = () => {
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
-    const { loginUser } = useContext(AuthContext);
-    const router = useRouter();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>()
+    const { loginUser } = useContext(AuthContext)
+    const router = useRouter()
 
     const onLoginUser = async ({ email, password }: FormData) => {
-        const isValidLogin = await loginUser(email, password);
+        // const isValidLogin = await loginUser(email, password)
 
-        const destination = router.query.p?.toString() || '/';
-        if (isValidLogin) router.replace(destination)
+        // const destination = router.query.p?.toString() || '/'
+        // if (isValidLogin) router.replace(destination)
+        signIn('credentials', { email, password })
     }
 
     return (

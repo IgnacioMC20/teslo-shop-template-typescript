@@ -1,46 +1,45 @@
+import { Button, Card, Grid, Link, TextField, Typography } from '@mui/material'
 import { NextPage } from 'next'
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
-
-import { Button, Card, Grid, Link, TextField, Typography } from '@mui/material'
+import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { AuthLayout } from '@/components/layout'
-import { validations } from '@/utils'
-import { useContext } from 'react';
 import { AuthContext } from '@/context'
-import { useRouter } from 'next/router'
+import { validations } from '@/utils'
 
 type FormData = {
-    email: string;
-    name: string;
-    lastname: string;
+    email: string
+    name: string
+    lastname: string
     password: string,
     confirmPassword: string,
 
-};
+}
 
 const RegisterPage: NextPage = () => {
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>()
     const { registerUser } = useContext(AuthContext)
     const router = useRouter()
 
     const onRegisterUser = async ({ email, password, name, lastname }: FormData) => {
        const fullName = `${name.trim()} ${lastname.trim()}`
-       const isValidRegister = await registerUser(email, password, fullName);
+       const isValidRegister = await registerUser(email, password, fullName)
     
-       const destination = router.query.p?.toString() || '/';
+       const destination = router.query.p?.toString() || '/'
         if(isValidRegister) router.replace(destination)
     }
 
     const samePasswordAs = (password: string) => {
         return (value: string) => {
-            return value === password || 'Las contraseñas no coinciden';
-        };
-    };
+            return value === password || 'Las contraseñas no coinciden'
+        }
+    }
 
-    const password = watch('password', '');
+    const password = watch('password', '')
 
     return (
         <AuthLayout title={'Registro'}>
