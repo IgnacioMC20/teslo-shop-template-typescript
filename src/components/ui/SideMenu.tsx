@@ -7,7 +7,7 @@ import {
     List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader
 } from '@mui/material'
 import { useRouter } from 'next/router'
-import { use, useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 
 import { AuthContext, UIContext } from '@/context'
 
@@ -91,7 +91,7 @@ export const SideMenu = () => {
                                     <ListItemText primary={'Perfil'} />
                                 </ListItemButton>
 
-                                <ListItemButton>
+                                <ListItemButton onClick={() => navigateTo('/orders/history')}>
                                     <ListItemIcon>
                                         <ShoppingBagOutlined />
                                     </ListItemIcon>
@@ -151,7 +151,7 @@ export const SideMenu = () => {
                                     <ListItemText primary={'Productos'} />
                                 </ListItemButton>
                                 <ListItemButton>
-                                    <ListItemIcon>
+                                    <ListItemIcon onClick={() => navigateTo('/orders/history')}>
                                         <ShoppingBagOutlined />
                                     </ListItemIcon>
                                     <ListItemText primary={'Ordenes'} />

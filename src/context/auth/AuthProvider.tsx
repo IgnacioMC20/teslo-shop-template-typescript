@@ -1,17 +1,16 @@
-import { FC, useReducer, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
+import { useSession, signOut } from 'next-auth/react'
+import { FC, useReducer, useEffect } from 'react'
+import { toast } from 'react-toastify'
 
-import { toast } from "react-toastify";
-import Cookies from "js-cookie";
-
-import { authReducer, AuthContext } from '.';
-import { IUser } from "@/interfaces";
-import { tesloApi } from "@/api";
-
+import { authReducer, AuthContext } from '.'
+import { tesloApi } from '@/api'
+import { IUser } from '@/interfaces'
 
 export interface AuthState {
-    isLoggedIn: boolean;
-    user?: IUser;
+    isLoggedIn: boolean
+    user?: IUser
 }
 
 const AUTH_INITIAL_STATE: AuthState = {
@@ -21,27 +20,36 @@ const AUTH_INITIAL_STATE: AuthState = {
 
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 
-    const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE);
-    const router = useRouter();
+    const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE)
+    const router = useRouter()
+
+    const { data, status } = useSession()
 
     useEffect(() => {
-        checkToken();
-    }, [])
+        if (status === 'authenticated') dispatch({ type: '[Auth] - Login', payload: data?.user as IUser })
+    }, [status, data])
+
+    /**
+     * old auth system
+     * useEffect(() => {
+     *   checkToken()
+     * }, [])
+     */ 
 
     const checkToken = async () => {
-        if(!Cookies.get('token')){
-            return;
+        if (!Cookies.get('token')) {
+            return
         }
         try {
-            const data = await tesloApi({ url: '/user/validate-token' });
-            const { message, token, user } = await data.json();
+            const data = await tesloApi({ url: '/user/validate-token' })
+            const { message, token, user } = await data.json()
 
             if (message) {
                 router.push('/auth/login')
                 Cookies.remove('token')
-                return;
+                return
             }
-            Cookies.set('token', token);
+            Cookies.set('token', token)
             dispatch({ type: '[Auth] - Login', payload: user })
 
         } catch (error) {
@@ -57,25 +65,25 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
                 url: '/user/login',
                 data: { email, password },
                 method: 'POST'
-            });
-            const { message, token, user } = await data.json();
+            })
+            const { message, token, user } = await data.json()
             if (message) {
                 toast(message, {
-                    position: "top-right",
+                    position: 'top-right',
                     autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: false,
                     pauseOnHover: false,
                     draggable: false,
-                    theme: "light",
+                    theme: 'light',
                     type: 'error',
                     closeButton: false
                 })
-                return false;
+                return false
             }
-            Cookies.set('token', token);
+            Cookies.set('token', token)
             dispatch({ type: '[Auth] - Login', payload: user })
-            return true;
+            return true
         } catch (error) {
             console.log('Error: ', error)
             return false
@@ -88,25 +96,25 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
                 url: '/user/register',
                 data: { email, password, name },
                 method: 'POST'
-            });
-            const { message, token, user } = await data.json();
+            })
+            const { message, token, user } = await data.json()
             if (message) {
                 toast(message, {
-                    position: "top-right",
+                    position: 'top-right',
                     autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: false,
                     pauseOnHover: false,
                     draggable: false,
-                    theme: "light",
+                    theme: 'light',
                     type: 'error',
                     closeButton: false
                 })
-                return false;
+                return false
             }
-            Cookies.set('token', token);
+            Cookies.set('token', token)
             dispatch({ type: '[Auth] - Login', payload: user })
-            return true;
+            return true
         } catch (error) {
             console.log('Error: ', error)
             return false
@@ -114,9 +122,18 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
     }
 
     const logoutUser = () => {
-      Cookies.remove('cart')
-      Cookies.remove('token')
-      router.reload()
+        Cookies.remove('cart')
+        Cookies.remove('department')
+        Cookies.remove('phone')
+        Cookies.remove('country')
+        Cookies.remove('city')
+        Cookies.remove('zipCode')
+        Cookies.remove('address')
+        Cookies.remove('lastName')
+        Cookies.remove('firstName')
+        signOut()
+        // Cookies.remove('token')
+        // router.reload()
     }
 
     return (

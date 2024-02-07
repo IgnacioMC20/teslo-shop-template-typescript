@@ -115,7 +115,7 @@ export const CartProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
         return
     }
 
-    const createOrder = async () => {
+    const createOrder = async (): Promise<{hasError: boolean, message: string}> => {
 
         if (!state.shippingAddress) throw new Error('No se ha ingresado la dirección de envío')
 
@@ -145,11 +145,21 @@ export const CartProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
                 method: 'POST',
                 data: body
             })
-            return await response.json()
+
+            const { _id }: IOrder = await response.json()
+
+            dispatch({ type: '[Cart] - OrderComplete'})
+
+            return {
+                hasError: false,
+                message: _id!
+            }
 
         } catch (error) {
-            console.log(error)
-            throw new Error('Error al crear la orden')
+            return {
+                hasError: true,
+                message: `Error al crear la orden ${error}` 
+            }
         }
     }
 

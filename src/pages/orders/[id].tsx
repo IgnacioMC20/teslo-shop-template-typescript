@@ -2,36 +2,44 @@
 import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material'
 import { Button, Card, CardContent, Chip, Divider, Grid, Link, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { NextPage } from 'next'
+import { NextPage, GetServerSideProps } from 'next'
 import NextLink from 'next/link'
+import { getSession } from 'next-auth/react'
 
 import { CartList, OrderSummary } from '@/components/cart'
 import { ShopLayout } from '@/components/layout'
+import { dbOrders } from '@/database'
+import { IOrder } from '@/interfaces'
 
-const OrderPage: NextPage = () => {
+const OrderPage: NextPage<{ order: IOrder }> = ({ order }) => {
+
+    const { _id, isPaid, numberOfItems, shippingAddress } = order
     return (
         <ShopLayout title={'Order 123abc'} pageDescription={'Order 123abc'}>
-            <Typography variant='h1' component='h1'>Order: 123abc</Typography>
-
-            <Chip
-                sx={{ my: 2, padding: '5px 5px' }}
-                label='Pending'
-                variant='outlined'
-                color='primary'
-                icon={<CreditCardOffOutlined />}
-            />
-
-            <Chip
-                sx={{ my: 2, padding: '5px 5px' }}
-                label='Completed'
-                variant='outlined'
-                color='primary'
-                icon={<CreditScoreOutlined />}
-            />
+            <Typography variant='h1' component='h1'>Order: {_id}</Typography>
+            {
+                isPaid ? (
+                    <Chip
+                        sx={{ my: 2, padding: '5px 5px' }}
+                        label='Pending'
+                        variant='outlined'
+                        color='primary'
+                        icon={<CreditCardOffOutlined />}
+                    />
+                ) : (
+                    <Chip
+                        sx={{ my: 2, padding: '5px 5px' }}
+                        label='Orden pagada'
+                        variant='outlined'
+                        color='primary'
+                        icon={<CreditScoreOutlined />}
+                    />
+                )
+            }
 
             <Grid container columns={12} sx={{ mt: 5 }}>
                 <Grid item xs={12} sm={7} >
-                    <CartList />
+                    <CartList products={order.orderItems} />
                 </Grid>
                 <Grid item xs={12} sm={5} >
                     <Card className='summary-card' sx={{ padding: '5px 20px', boxShadow: '20px 20px 10px grey' }}>
@@ -47,35 +55,44 @@ const OrderPage: NextPage = () => {
                             </Box>
 
                             <Typography variant='subtitle1'>Address</Typography>
-                            <Typography>Fernando Herrera</Typography>
-                            <Typography>323 Somewhere</Typography>
-                            <Typography>Antigua Guatemala, Guatemala</Typography>
-                            <Typography>+502 45454545</Typography>
+                            <Typography>{shippingAddress.firstName} {shippingAddress.lastName}</Typography>
+                            <Typography>{shippingAddress.address}</Typography>
+                            <Typography>{shippingAddress.city}, {shippingAddress.country}</Typography>
+                            <Typography>{shippingAddress.phone}</Typography>
 
                             <Divider sx={{ my: 3 }} light />
 
                             <Box display='flex' justifyContent='space-between' sx={{ my: 2 }}>
-                                <Typography variant='h2'>Summary (3)</Typography>
-                                <NextLink href='/cart' passHref legacyBehavior>
-                                    <Link underline="hover">
-                                        Edit
-                                    </Link>
-                                </NextLink>
+                                <Typography variant='h2'>Summary ({numberOfItems})</Typography>
                             </Box>
-                            <OrderSummary />
+                            <OrderSummary orderValues={
+                                {
+                                    numberOfItems: order.numberOfItems,
+                                    subTotal: order.subTotal,
+                                    tax: order.tax,
+                                    total: order.total
+                                }
+                            } />
                             <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
-                                <Button color="primary" fullWidth>
-                                    Pagar
-                                </Button>
-                            </Box>
-                            <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
-                                <Chip
-                                    sx={{ my: 2, padding: '5px 5px' }}
-                                    label='Completed'
-                                    variant='outlined'
-                                    color='primary'
-                                    icon={<CreditScoreOutlined />}
-                                />
+                                {
+                                    isPaid ? (
+                                        <Chip
+                                            sx={{ my: 2, padding: '5px 5px' }}
+                                            label='Pending'
+                                            variant='outlined'
+                                            color='primary'
+                                            icon={<CreditCardOffOutlined />}
+                                        />
+                                    ) : (
+                                        <Chip
+                                            sx={{ my: 2, padding: '5px 5px' }}
+                                            label='Orden pagada'
+                                            variant='outlined'
+                                            color='primary'
+                                            icon={<CreditScoreOutlined />}
+                                        />
+                                    )
+                                }
                             </Box>
                         </CardContent>
                     </Card>
@@ -84,6 +101,38 @@ const OrderPage: NextPage = () => {
             </Grid>
         </ShopLayout>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+    const { id = '' } = query
+
+    const session: any = await getSession({ req })
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: `/auth/login?p=/orders/${id}`,
+                permanent: false
+            }
+        }
+    }
+
+    const order = await dbOrders.getOrderById(id.toString())
+
+    if (!order || order.user !== session.user._id) {
+        return {
+            redirect: {
+                destination: '/orders/history',
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {
+            order
+        }
+    }
 }
 
 export default OrderPage

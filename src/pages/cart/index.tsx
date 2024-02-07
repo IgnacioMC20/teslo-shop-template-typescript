@@ -49,7 +49,7 @@ const index: NextPage = () => {
                             <OrderSummary />
                             <Box sx={{ mt: 3 }}>
                                 <Button color="primary" fullWidth onClick={onCheckout}>
-                                    Checkouts
+                                    Checkout
                                 </Button>
                             </Box>
                         </CardContent>

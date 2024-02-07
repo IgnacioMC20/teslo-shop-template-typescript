@@ -19,7 +19,7 @@ interface ContextPros {
     updateAddress: (address: ShippingAddress) => void
 
     //Orders 
-    createOrder: () => void
+    createOrder: () => Promise<{hasError: boolean, message: string}>
 }
 
 export const CartContext = createContext({} as ContextPros)

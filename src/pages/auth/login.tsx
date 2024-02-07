@@ -1,8 +1,8 @@
 import { Button, Card, Grid, Link, TextField, Typography } from '@mui/material'
-import { NextPage } from 'next'
+import { NextPage, GetServerSideProps } from 'next'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
-import { signIn } from 'next-auth/react'
+import { getSession, signIn } from 'next-auth/react'
 import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -84,6 +84,25 @@ const LoginPage: NextPage = () => {
             </Grid >
         </AuthLayout >
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+    const session = await getSession({ req })
+    console.log('session: ', session)
+    const { p = '/' } = query
+
+    if (session) {
+        return {
+            redirect: {
+                destination: p.toString(),
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {}
+    }
 }
 
 export default LoginPage

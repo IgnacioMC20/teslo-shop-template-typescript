@@ -5,13 +5,17 @@ import { FC, useContext } from 'react'
 
 import { ItemCounter } from '../ui'
 import { CartContext } from '@/context'
-import { ICartProduct } from '@/interfaces'
+import { ICartProduct, IOrderItem } from '@/interfaces'
 
 interface Props {
     editable?: boolean
+    products?: IOrderItem[]
+    //todo: add products
 }
 
-export const CartList: FC<Props> = ({ editable = false }) => {
+export const CartList: FC<Props> = ({ editable = false, products }) => {
+
+    console.log({products})
 
     const { cart, updateCartQuantity, removeCartProduct } = useContext(CartContext)
 
@@ -20,10 +24,12 @@ export const CartList: FC<Props> = ({ editable = false }) => {
         updateCartQuantity(product)
     }
 
+    const productsToShow = products ? products : cart
+
     return (
         <>
             {
-                cart.map((product) => (
+                productsToShow.map((product) => (
                     <Grid container spacing={2} key={product.slug + product.size} sx={{ mb: 1 }}>
                         <Grid item xs={3}>
                             <NextLink href={`/product/${product.slug}`} passHref legacyBehavior>

@@ -1,7 +1,8 @@
 import { Button, Card, Grid, Link, TextField, Typography } from '@mui/material'
-import { NextPage } from 'next'
+import { GetServerSideProps, NextPage } from 'next'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
+import { getSession, signIn } from 'next-auth/react'
 import React from 'react'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
@@ -26,11 +27,9 @@ const RegisterPage: NextPage = () => {
     const router = useRouter()
 
     const onRegisterUser = async ({ email, password, name, lastname }: FormData) => {
-       const fullName = `${name.trim()} ${lastname.trim()}`
-       const isValidRegister = await registerUser(email, password, fullName)
-    
-       const destination = router.query.p?.toString() || '/'
-        if(isValidRegister) router.replace(destination)
+        const fullName = `${name.trim()} ${lastname.trim()}`
+        const isValidRegister = await registerUser(email, password, fullName)
+        if (isValidRegister) signIn('credentials', { email, password })
     }
 
     const samePasswordAs = (password: string) => {
@@ -138,6 +137,25 @@ const RegisterPage: NextPage = () => {
             </Grid>
         </AuthLayout>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+    const session = await getSession({ req })
+    console.log('session: ', session)
+    const { p = '/' } = query
+
+    if (session) {
+        return {
+            redirect: {
+                destination: p.toString(),
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {}
+    }
 }
 
 export default RegisterPage
