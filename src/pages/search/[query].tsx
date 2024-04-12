@@ -1,15 +1,16 @@
-import { GetServerSideProps, NextPage } from 'next';
-import { Typography } from '@mui/material';
-import { ShopLayout } from '@/components/layout';
-import { FabButton } from '@/components/ui';
-import { useFabButton } from '@/hooks';
-import { dbProducts } from '@/database';
-import { IProduct } from '@/interfaces';
-import { ProductList } from '@/components/products';
+import { Typography } from '@mui/material'
+import { GetServerSideProps, NextPage } from 'next'
+
+import { ShopLayout } from '@/components/layout'
+import { ProductList } from '@/components/products'
+import { FabButton } from '@/components/ui'
+import { dbProducts } from '@/database'
+import { useFabButton } from '@/hooks'
+import { IProduct } from '@/interfaces'
 
 interface Props{
-    products: IProduct[];
-    query: string;
+    products: IProduct[]
+    query: string
     foundProducts: boolean
 }
 
@@ -37,11 +38,10 @@ const SearchPage: NextPage<Props> = ({ products, query, foundProducts }) => {
     )
 }
 
-export default SearchPage;
+export default SearchPage
 
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
-
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { query = '' } = ctx.params as { query: string }
@@ -55,13 +55,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         }
     }
 
-    let products = await dbProducts.getProductsByTerm(query);
-    const foundProducts = products.length > 0;
+    let products = await dbProducts.getProductsByTerm(query)
+    const foundProducts = products.length > 0
 
     if (!foundProducts) {
-        products = await dbProducts.getAllProducts();
+        products = await dbProducts.getAllProducts()
     }
-
 
     return {
         props: {

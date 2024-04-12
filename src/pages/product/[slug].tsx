@@ -1,17 +1,16 @@
+import { Button, Chip, Grid, Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
-
-import { Button, Chip, Grid, Typography } from '@mui/material'
-import { Box } from '@mui/system'
 import { toast } from 'react-toastify'
 
-import { ProductSlideshow, SizeSelector } from '@/components/products'
-import { dbProducts } from '@/database'
 import { ShopLayout } from '@/components/layout'
+import { ProductSlideshow, SizeSelector } from '@/components/products'
 import { ItemCounter } from '@/components/ui'
-import { IProduct } from '@/interfaces'
 import { CartContext } from '@/context'
+import { dbProducts } from '@/database'
+import { IProduct } from '@/interfaces'
 
 interface Props {
     product: IProduct
@@ -19,8 +18,8 @@ interface Props {
 
 const ProductPage: NextPage<Props> = ({ product }) => {
 
-    const router = useRouter();
-    const { addProductToCart } = useContext(CartContext);
+    const router = useRouter()
+    const { addProductToCart } = useContext(CartContext)
 
     const [tempCartProduct, setTempCartProduct] = useState({
         _id: product._id,
@@ -32,14 +31,14 @@ const ProductPage: NextPage<Props> = ({ product }) => {
         gender: product.gender,
         inStock: product.inStock,
         quantity: 1,
-    });
+    })
 
     const onSelectedSize = (size: any) => {
         setTempCartProduct(currentProduct => ({
             ...currentProduct,
             size
         }))
-    };
+    }
 
     const updateQuantity = (quantity: number) => {
         setTempCartProduct(currentProduct => ({
@@ -53,7 +52,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
         //Todo: llamar la accion del context para agregar al carrito
         addProductToCart(tempCartProduct)
         toast('producto agregado al carrito',{
-            position: "top-right",
+            position: 'top-right',
             pauseOnFocusLoss: false,
             pauseOnHover: false,
             autoClose: 2000,
@@ -69,7 +68,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
               
         })
         //todo: agregar react toastify
-        // router.push('/cart');
+        // router.push('/cart')
     }
 
     return (
@@ -140,14 +139,14 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
-    const slugs = await dbProducts.getAllProductsSlug();
+    const slugs = await dbProducts.getAllProductsSlug()
     return {
         paths: slugs.map(({slug}) => {
             return{
                 params: { slug }
             }
         }),
-        fallback: "blocking"
+        fallback: 'blocking'
     }
 }
 
@@ -157,7 +156,7 @@ export default ProductPage
 // export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
 //     const { slug = '' } = ctx.params as { slug: string }
 //     console.log(slug)
-//     const product = await dbProducts.getProductBySlug(slug);
+//     const product = await dbProducts.getProductBySlug(slug)
 
 //     if (!product) {
 //         return {

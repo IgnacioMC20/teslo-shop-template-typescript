@@ -1,34 +1,32 @@
-import { use, useContext, useState } from "react"
-import { useRouter } from "next/router"
-
-import {
-    Box, Divider, Drawer, IconButton, Input, InputAdornment,
-    List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader
-} from "@mui/material"
 import {
     AccountCircleOutlined, EscalatorWarningOutlined, FemaleOutlined, LoginOutlined,
     LogoutOutlined, MaleOutlined, ShoppingBagOutlined, CheckroomOutlined, AdminPanelSettingsOutlined, SearchOutlined
-} from '@mui/icons-material';
+} from '@mui/icons-material'
+import {
+    Box, Divider, Drawer, IconButton, Input, InputAdornment,
+    List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader
+} from '@mui/material'
+import { useRouter } from 'next/router'
+import { useContext, useState } from 'react'
 
-import { AuthContext, UIContext } from "@/context";
-
+import { AuthContext, UIContext } from '@/context'
 
 export const SideMenu = () => {
 
-    const { isMenuOpen, toggleSideMenu } = useContext(UIContext);
+    const { isMenuOpen, toggleSideMenu } = useContext(UIContext)
     const { user, isLoggedIn, logoutUser } = useContext(AuthContext)
-    const router = useRouter();
+    const router = useRouter()
     const navigateTo = (url: string) => {
-        toggleSideMenu();
-        router.push(url);
+        toggleSideMenu()
+        router.push(url)
     }
 
     const onSearchTerm = () => {
-        if (searchTerm.trim().length === 0) return;
-        navigateTo(`/search/${searchTerm}`);
+        if (searchTerm.trim().length === 0) return
+        navigateTo(`/search/${searchTerm}`)
     }
 
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState('')
 
     return (
         <Drawer
@@ -93,7 +91,7 @@ export const SideMenu = () => {
                                     <ListItemText primary={'Perfil'} />
                                 </ListItemButton>
 
-                                <ListItemButton>
+                                <ListItemButton onClick={() => navigateTo('/orders/history')}>
                                     <ListItemIcon>
                                         <ShoppingBagOutlined />
                                     </ListItemIcon>
@@ -153,7 +151,7 @@ export const SideMenu = () => {
                                     <ListItemText primary={'Productos'} />
                                 </ListItemButton>
                                 <ListItemButton>
-                                    <ListItemIcon>
+                                    <ListItemIcon onClick={() => navigateTo('/orders/history')}>
                                         <ShoppingBagOutlined />
                                     </ListItemIcon>
                                     <ListItemText primary={'Ordenes'} />

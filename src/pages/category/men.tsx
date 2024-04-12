@@ -1,12 +1,12 @@
-import { Typography } from '@mui/material';
+import { Typography } from '@mui/material'
 
-import { ShopLayout } from '@/components/layout';
-import { ProductList } from '@/components/products';
-import { FabButton, LoadingScreen } from '@/components/ui';
-import { useFabButton, useProducts } from '@/hooks';
+import { ShopLayout } from '@/components/layout'
+import { ProductList } from '@/components/products'
+import { FabButton, LoadingScreen } from '@/components/ui'
+import { useFabButton, useProducts } from '@/hooks'
 
 const MenPage = () => {
-  const { products, isLoading } = useProducts('/products?gender=men');
+  const { products, isLoading } = useProducts('/products?gender=men')
   const { showButton } = useFabButton()
 
   return (

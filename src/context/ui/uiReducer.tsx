@@ -1,4 +1,4 @@
-import { UIState } from './UIProvider';
+import { UIState } from './UIProvider'
 
 type UIActionType =
     | { type: '[UI] - ToggleMenu' }
@@ -10,9 +10,9 @@ export const uiReducer = (state: UIState, action: UIActionType): UIState => {
             return {
                 ...state,
                 isMenuOpen: !state.isMenuOpen
-            };
+            }
 
         default:
-            return state;
+            return state
     }
 }

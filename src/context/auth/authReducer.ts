@@ -1,5 +1,5 @@
-import { IUser } from "@/interfaces";
-import { AuthState } from "./AuthProvider";
+import { AuthState } from './AuthProvider'
+import { IUser } from '@/interfaces'
 
 type AuthActionType = 
     | { type: '[Auth] - Login', payload: IUser }
@@ -22,6 +22,6 @@ export const authReducer = (state: AuthState, action: AuthActionType): AuthState
                 user: undefined,
             }
         default:
-            return state;
+            return state
     }
 }

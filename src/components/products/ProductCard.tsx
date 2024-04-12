@@ -1,18 +1,17 @@
-import NextLink from 'next/link';
+import { Box, Card, CardActionArea, CardMedia, Chip, Grid, Link, Typography } from '@mui/material'
+import NextLink from 'next/link'
 import { FC, useMemo, useState } from 'react'
 
-import { Box, Card, CardActionArea, CardMedia, Chip, Grid, Link, Typography } from '@mui/material'
-
-import { IProduct } from '@/interfaces';
+import { IProduct } from '@/interfaces'
 
 interface Porps{
-    product: IProduct;
+    product: IProduct
 }
 
 export const ProductCard: FC<Porps> = ({ product }) => {
 
-    const [isHovered, setIsHovered] = useState(false);
-    const [isImageLoaded, setIsImageLoaded] = useState(false);
+    const [isHovered, setIsHovered] = useState(false)
+    const [isImageLoaded, setIsImageLoaded] = useState(false)
     
     const productImage = useMemo(() => {
         return isHovered ? `/products/${product.images[1]}` : `/products/${product.images[0]}`

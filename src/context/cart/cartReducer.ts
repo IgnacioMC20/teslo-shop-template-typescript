@@ -1,5 +1,5 @@
-import { ICartProduct, ISummary } from '@/interfaces';
-import { CartState, ShippingAdress } from './CartProvider';
+import { CartState } from './CartProvider'
+import { ICartProduct, ISummary, ShippingAddress } from '@/interfaces'
 
 type CartActionType =
     | { type: '[Cart] - LoadCartFromCookies', payload: ICartProduct[] }
@@ -7,8 +7,9 @@ type CartActionType =
     | { type: '[Cart] - UpdateQuantity', payload: ICartProduct }
     | { type: '[Cart] - RemoveProduct', payload: ICartProduct }
     | { type: '[Cart] - UpdateCartSummary', payload: ISummary }
-    | { type: '[Cart] - LoadAdressFromCookies', payload: ShippingAdress }
-    | { type: '[Cart] - UpdateAdress', payload: ShippingAdress }
+    | { type: '[Cart] - LoadAddressFromCookies', payload: ShippingAddress }
+    | { type: '[Cart] - UpdateAddress', payload: ShippingAddress }
+    | { type: '[Cart] - OrderComplete' }
 
 export const cartReducer = (state: CartState, action: CartActionType): CartState => {
     switch (action.type) {
@@ -17,7 +18,7 @@ export const cartReducer = (state: CartState, action: CartActionType): CartState
                 ...state,
                 cart: [...action.payload],
                 isLoaded: true
-            };
+            }
 
         case '[Cart] - UpdateProductsInCart':
             return {
@@ -36,9 +37,9 @@ export const cartReducer = (state: CartState, action: CartActionType): CartState
                 ...state,
                 cart: state.cart.map((product) => {
                     if (product._id === action.payload._id && product.size === action.payload.size) {
-                        return action.payload;
+                        return action.payload
                     }
-                    return product;
+                    return product
                 })
             }
 
@@ -48,15 +49,23 @@ export const cartReducer = (state: CartState, action: CartActionType): CartState
                 ...action.payload
             }
 
-        case '[Cart] - UpdateAdress':    
-        case '[Cart] - LoadAdressFromCookies':
+        case '[Cart] - UpdateAddress':    
+        case '[Cart] - LoadAddressFromCookies':
             return{
                 ...state,
-                shippingAdress: action.payload
+                shippingAddress: action.payload
             }
 
-
+        case '[Cart] - OrderComplete':
+            return {
+                ...state,
+                cart: [],
+                numberOfItems: 0,
+                total: 0,
+                tax: 0,
+                subTotal: 0,
+            }
         default:
-            return state;
+            return state
     }
 }

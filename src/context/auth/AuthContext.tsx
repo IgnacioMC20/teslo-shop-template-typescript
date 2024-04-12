@@ -1,10 +1,10 @@
-import { createContext } from "react";
+import { createContext } from 'react'
 
-import { IUser } from "@/interfaces";
+import { IUser } from '@/interfaces'
 
 interface ContextPros {
-    isLoggedIn: boolean;
-    user?: IUser;
+    isLoggedIn: boolean
+    user?: IUser
 
     //Methods
     loginUser: (email: string, password: string) => Promise<boolean>
@@ -12,4 +12,4 @@ interface ContextPros {
     logoutUser: () => void
 }
 
-export const AuthContext = createContext({} as ContextPros);
+export const AuthContext = createContext({} as ContextPros)

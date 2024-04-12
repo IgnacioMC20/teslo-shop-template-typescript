@@ -1,14 +1,13 @@
-import { NextPage } from 'next';
+import { Typography } from '@mui/material'
+import { NextPage } from 'next'
 
-import { Typography } from '@mui/material';
-
-import { ShopLayout } from '@/components/layout';
-import { ProductList } from '@/components/products';
-import { FabButton, LoadingScreen } from '@/components/ui';
-import { useFabButton, useProducts } from '@/hooks';
+import { ShopLayout } from '@/components/layout'
+import { ProductList } from '@/components/products'
+import { FabButton, LoadingScreen } from '@/components/ui'
+import { useFabButton, useProducts } from '@/hooks'
 
 const WomenPage: NextPage = () => {
-  const { products, isLoading } = useProducts('/products?gender=women');
+  const { products, isLoading } = useProducts('/products?gender=women')
   const { showButton } = useFabButton()
 
   return (

@@ -1,8 +1,8 @@
-import { NextPage } from 'next'
-import NextLink from 'next/link'
-
 import { Chip, Grid, Link, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
+import { NextPage, GetServerSideProps } from 'next'
+import NextLink from 'next/link'
+import { getSession } from 'next-auth/react'
 
 import { ShopLayout } from '@/components/layout'
 
@@ -71,11 +71,15 @@ const rows = [
     { id: 64, paid: false, fullname: 'Marcos Ballena', order: 6 },
 ]
 
-const HistoryPage: NextPage = () => {
+interface Props {
+
+}
+
+const HistoryPage: NextPage<Props> = (props) => {
+    console.log(props)
     return (
         <ShopLayout title='History' pageDescription='Order History'>
             <Typography variant='h1' component='h1'>History</Typography>
-
             <Grid container sx={{ my: 5 }}>
                 <Grid item sx={{ height: 650, width: '100%' }}>
                     <DataGrid rows={rows} columns={columns} />
@@ -83,6 +87,25 @@ const HistoryPage: NextPage = () => {
             </Grid>
         </ShopLayout>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const session: any = getSession({ req })
+
+    if (!session){
+        return {
+            redirect: {
+                destination: '/auth/login?p=/orders/history',
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {
+            id: session.user
+        }
+    }
 }
 
 export default HistoryPage

@@ -1,6 +1,6 @@
-import { IDepartment } from "@/interfaces";
-import mongoose, { model, Schema, Model } from "mongoose";
+import mongoose, { model, Schema, Model } from 'mongoose'
 
+import { IDepartment } from '@/interfaces'
 
 const departmentSchema = new Schema({
     title: { type: String, required: true},
