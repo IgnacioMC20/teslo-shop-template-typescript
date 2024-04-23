@@ -5,107 +5,107 @@ import NextLink from 'next/link'
 import { getSession } from 'next-auth/react'
 
 import { ShopLayout } from '@/components/layout'
+import { dbOrders } from '@/database'
+import { IOrder, IUser } from '@/interfaces'
+import { showFirstName } from '@/utils'
 
 const columns = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'fullname', headerName: 'Nombre Completo', width: 300 },
-    {
-        field: 'paid',
-        headerName: 'Paid',
-        description: 'Shows the status of the order',
-        width: 200,
-        renderCell: (params: any) => {
-            return params.row.paid
-                ? <Chip color='primary' label='Paid' variant='outlined' />
-                : <Chip color='primary' label='Not Paid' variant='outlined' />
-        }
+  {
+    field: 'id',
+    headerName: 'ID',
+    width: 100,
+    renderCell: (params: any) => `Order ${params.row.id.slice(0, 5)}`,
+  },
+  { field: 'fullname', headerName: 'Nombre Completo', width: 300 },
+  {
+    field: 'paid',
+    headerName: 'Paid',
+    description: 'Shows the status of the order',
+    width: 200,
+    renderCell: (params: any) => {
+      return params.row.paid ? (
+        <Chip color="primary" label="Paid" variant="outlined" />
+      ) : (
+        <Chip color="primary" label="Not Paid" variant="outlined" />
+      )
     },
-    {
-        field: 'link',
-        headerName: 'Order',
-        description: 'Go to order',
-        width: 200,
-        sortable: false,
-        renderCell: (params: any) => (
-            <NextLink href={`/orders/${params.row.id}`} passHref legacyBehavior>
-                <Link underline='hover'>
-                    {`View ${params.row.id}`}
-                </Link>
-            </NextLink>
-        )
+  },
+  {
+    field: 'link',
+    headerName: 'Order',
+    description: 'Go to order',
+    width: 200,
+    sortable: false,
+    renderCell: (params: any) => (
+      <NextLink href={`/orders/${params.row.id}`} passHref legacyBehavior>
+        <Link underline="hover">
+          {/* {`View ${params.row.id.slice(0, 5)}`} */}
+          View
+        </Link>
+      </NextLink>
+    ),
+  },
+]
 
+const mapRows = (orders: IOrder[], user: IUser) =>
+  orders.map((order) => {
+    return {
+      id: order._id,
+      paid: order.isPaid,
+      fullname: user.name,
+      order: order._id,
     }
-
-]
-
-const rows = [
-    { id: 1, paid: true, fullname: 'Fernando Herrera', order: 1 },
-    { id: 2, paid: false, fullname: 'Ignacio Cuyun', order: 2 },
-    { id: 3, paid: true, fullname: 'Cielo Sagastume', order: 3 },
-    { id: 4, paid: false, fullname: 'Isabel Cuyun', order: 4 },
-    { id: 5, paid: true, fullname: 'Adrian Martinez', order: 5 },
-    { id: 6, paid: false, fullname: 'Marcos Ballena', order: 6 },
-    { id: 11, paid: true, fullname: 'Fernando Herrera', order: 1 },
-    { id: 21, paid: false, fullname: 'Ignacio Cuyun', order: 2 },
-    { id: 31, paid: true, fullname: 'Cielo Sagastume', order: 3 },
-    { id: 41, paid: false, fullname: 'Isabel Cuyun', order: 4 },
-    { id: 51, paid: true, fullname: 'Adrian Martinez', order: 5 },
-    { id: 61, paid: false, fullname: 'Marcos Ballena', order: 6 },
-    { id: 12, paid: true, fullname: 'Fernando Herrera', order: 1 },
-    { id: 22, paid: false, fullname: 'Ignacio Cuyun', order: 2 },
-    { id: 32, paid: true, fullname: 'Cielo Sagastume', order: 3 },
-    { id: 42, paid: false, fullname: 'Isabel Cuyun', order: 4 },
-    { id: 52, paid: true, fullname: 'Adrian Martinez', order: 5 },
-    { id: 62, paid: false, fullname: 'Marcos Ballena', order: 6 },
-    { id: 13, paid: true, fullname: 'Fernando Herrera', order: 1 },
-    { id: 23, paid: false, fullname: 'Ignacio Cuyun', order: 2 },
-    { id: 33, paid: true, fullname: 'Cielo Sagastume', order: 3 },
-    { id: 43, paid: false, fullname: 'Isabel Cuyun', order: 4 },
-    { id: 53, paid: true, fullname: 'Adrian Martinez', order: 5 },
-    { id: 63, paid: false, fullname: 'Marcos Ballena', order: 6 },
-    { id: 14, paid: true, fullname: 'Fernando Herrera', order: 1 },
-    { id: 24, paid: false, fullname: 'Ignacio Cuyun', order: 2 },
-    { id: 34, paid: true, fullname: 'Cielo Sagastume', order: 3 },
-    { id: 44, paid: false, fullname: 'Isabel Cuyun', order: 4 },
-    { id: 54, paid: true, fullname: 'Adrian Martinez', order: 5 },
-    { id: 64, paid: false, fullname: 'Marcos Ballena', order: 6 },
-]
+  })
 
 interface Props {
-
+  user: IUser;
+  orders: IOrder[] | [];
 }
 
-const HistoryPage: NextPage<Props> = (props) => {
-    console.log(props)
-    return (
-        <ShopLayout title='History' pageDescription='Order History'>
-            <Typography variant='h1' component='h1'>History</Typography>
-            <Grid container sx={{ my: 5 }}>
-                <Grid item sx={{ height: 650, width: '100%' }}>
-                    <DataGrid rows={rows} columns={columns} />
-                </Grid>
-            </Grid>
-        </ShopLayout>
-    )
+const HistoryPage: NextPage<Props> = ({ user, orders }: Props) => {
+  console.log({ orders, user })
+  const rows = mapRows(orders, user)
+
+  return (
+    <ShopLayout title="History" pageDescription="Order History">
+      <Typography variant="h1" component="h1">
+        Ordenes de {showFirstName(user?.name!)}
+      </Typography>
+      <Grid container sx={{ my: 5 }}>
+        <Grid item sx={{ height: 650, width: '100%' }}>
+          {orders.length === 0 ? (
+            <Typography variant="h2" component="h2">
+              No hay ordenes
+            </Typography>
+          ) : (
+            <DataGrid rows={rows} columns={columns} />
+          )}
+        </Grid>
+      </Grid>
+    </ShopLayout>
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-    const session: any = getSession({ req })
+  const session: any = await getSession({ req })
 
-    if (!session){
-        return {
-            redirect: {
-                destination: '/auth/login?p=/orders/history',
-                permanent: false
-            }
-        }
-    }
-
+  if (!session) {
     return {
-        props: {
-            id: session.user
-        }
+      redirect: {
+        destination: '/auth/login?p=/orders/history',
+        permanent: false,
+      },
     }
+  }
+
+  const orders = (await dbOrders.getOrdersByUser(session.user._id)) ?? []
+
+  return {
+    props: {
+      user: session.user,
+      orders,
+    },
+  }
 }
 
 export default HistoryPage

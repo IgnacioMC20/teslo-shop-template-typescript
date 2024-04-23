@@ -1,0 +1,1 @@
+export const showFirstName = (name: string) => name.split(' ')[0]
