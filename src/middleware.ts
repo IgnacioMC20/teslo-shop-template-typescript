@@ -1,7 +1,7 @@
 import * as jose from 'jose'
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
+import { /* NextFetchEvent, */ NextRequest, NextResponse } from 'next/server'
 
-export async function middleware(req: NextRequest, ev: NextFetchEvent) {
+export async function middleware(req: NextRequest, /* ev: NextFetchEvent */) {
     const previousPage = req.nextUrl.pathname
 
     if (previousPage.startsWith('/checkout')) {

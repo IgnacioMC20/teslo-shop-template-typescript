@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
 import { useSession, signOut } from 'next-auth/react'
 import { FC, useReducer, useEffect } from 'react'
 import { toast } from 'react-toastify'
@@ -21,7 +20,6 @@ const AUTH_INITIAL_STATE: AuthState = {
 export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE)
-    const router = useRouter()
 
     const { data, status } = useSession()
 
@@ -36,27 +34,27 @@ export const AuthProvider: FC<{ children: React.ReactNode }> = ({ children }) =>
      * }, [])
      */ 
 
-    const checkToken = async () => {
-        if (!Cookies.get('token')) {
-            return
-        }
-        try {
-            const data = await tesloApi({ url: '/user/validate-token' })
-            const { message, token, user } = await data.json()
+    // const checkToken = async () => {
+    //     if (!Cookies.get('token')) {
+    //         return
+    //     }
+    //     try {
+    //         const data = await tesloApi({ url: '/user/validate-token' })
+    //         const { message, token, user } = await data.json()
 
-            if (message) {
-                router.push('/auth/login')
-                Cookies.remove('token')
-                return
-            }
-            Cookies.set('token', token)
-            dispatch({ type: '[Auth] - Login', payload: user })
+    //         if (message) {
+    //             router.push('/auth/login')
+    //             Cookies.remove('token')
+    //             return
+    //         }
+    //         Cookies.set('token', token)
+    //         dispatch({ type: '[Auth] - Login', payload: user })
 
-        } catch (error) {
-            Cookies.remove('token')
-            router.push('/auth/login')
-        }
-    }
+    //     } catch (error) {
+    //         Cookies.remove('token')
+    //         router.push('/auth/login')
+    //     }
+    // }
 
     //Methods
     const loginUser = async (email: string, password: string): Promise<boolean> => {

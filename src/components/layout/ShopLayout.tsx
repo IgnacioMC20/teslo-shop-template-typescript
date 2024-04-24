@@ -10,7 +10,7 @@ interface Props {
     imageFullUrl?: string
 }
 
-export const ShopLayout: FC<Props> = ({ children, title, pageDescription, imageFullUrl }) => {
+export const ShopLayout: FC<Props> = ({ children, title, pageDescription, /* imageFullUrl */ }) => {
     return (
         <>
             <Head>

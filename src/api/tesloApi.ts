@@ -1,6 +1,3 @@
-import { CartState } from '@/context'
-import { ShippingAddress } from '@/interfaces'
-
 const baseUrl = '/api'
 
 interface User {
@@ -9,10 +6,10 @@ interface User {
     name?: string
     token?: string
 }
-interface Order {
-    cart: CartState
-    address: ShippingAddress
-}
+// interface Order {
+//     cart: CartState
+//     address: ShippingAddress
+// }
 interface Props {
     url: string
     method?: Action

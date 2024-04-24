@@ -3,11 +3,9 @@ import { NextPage, GetServerSideProps } from 'next'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { getSession, signIn } from 'next-auth/react'
-import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { AuthLayout } from '@/components/layout'
-import { AuthContext } from '@/context'
 import { validations } from '@/utils'
 
 type FormData = {
@@ -17,8 +15,7 @@ type FormData = {
 
 const LoginPage: NextPage = () => {
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>()
-    const { loginUser } = useContext(AuthContext)
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
     const router = useRouter()
 
     const onLoginUser = async ({ email, password }: FormData) => {

@@ -1,7 +1,6 @@
 import { Button, Chip, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next'
-import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -17,8 +16,6 @@ interface Props {
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
-
-    const router = useRouter()
     const { addProductToCart } = useContext(CartContext)
 
     const [tempCartProduct, setTempCartProduct] = useState({
@@ -138,7 +135,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     }
 }
 
-export const getStaticPaths: GetStaticPaths = async (ctx) => {
+export const getStaticPaths: GetStaticPaths = async () => {
     const slugs = await dbProducts.getAllProductsSlug()
     return {
         paths: slugs.map(({slug}) => {

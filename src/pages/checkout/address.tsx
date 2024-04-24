@@ -41,7 +41,7 @@ const AddressPage: NextPage = () => {
   const router = useRouter()
   const { updateAddress, cart } = useContext(CartContext)
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     defaultValues: getAddressFromCookies()
   })
   const [departments, setDepartments] = useState<IDepartment[]>([

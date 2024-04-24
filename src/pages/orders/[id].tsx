@@ -1,12 +1,6 @@
 import {
-  CreditCardOffOutlined,
-  CreditScoreOutlined,
-} from '@mui/icons-material'
-import {
-  Button,
   Card,
   CardContent,
-  Chip,
   Divider,
   Grid,
   Link,

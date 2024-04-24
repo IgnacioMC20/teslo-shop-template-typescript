@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material'
 import { NextPage } from 'next'
-import { useSession } from 'next-auth/react'
 
 import { ShopLayout } from '@/components/layout'
 import { ProductList } from '@/components/products'
