@@ -1,25 +1,23 @@
-import * as jose from 'jose'
-import { /* NextFetchEvent, */ NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { getToken } from 'next-auth/jwt'
 
-export async function middleware(req: NextRequest, /* ev: NextFetchEvent */) {
-    const previousPage = req.nextUrl.pathname
+export async function middleware(request: NextRequest) {
 
-    if (previousPage.startsWith('/checkout')) {
-        const token = req.cookies.get('token')?.value || ''
+    const session = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET })
 
-        try {
-            await jose.jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET_SEED))
-            return NextResponse.next()
-        } catch (error) {
-            return NextResponse.redirect(
-                new URL(`/auth/login?p=${previousPage}`, req.url)
-            )
-        }
+    if (!session) {
+        const requestedPage = request.nextUrl.pathname
+        const url = request.nextUrl.clone()
+        url.pathname = '/auth/login'
+        url.search = `p=${requestedPage}`
+        return NextResponse.redirect(url)
     }
+    
+    // return NextResponse.redirect(new URL('/about-2', request.url))
+    return NextResponse.next()
 }
 
 export const config = {
-    matcher: [
-        '/checkout/:path*'
-    ],
+    matcher: ['/checkout/address', '/checkout/summary']
 }
